@@ -61,10 +61,27 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Master\MAgent.cs" />
+    <Compile Include="Master\MAgentComm.cs" />
+    <Compile Include="Master\MGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryInterfaces\IMAgentCommRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMAgentRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMGameRepository.cs" />
+    <Compile Include="RepositoryInterfaces\ITResultDetRepository.cs" />
+    <Compile Include="RepositoryInterfaces\ITResultRepository.cs" />
+    <Compile Include="RepositoryInterfaces\ITSalesDetRepository.cs" />
+    <Compile Include="RepositoryInterfaces\ITSalesRepository.cs" />
+    <Compile Include="Trans\TResult.cs" />
+    <Compile Include="Trans\TResultDet.cs" />
+    <Compile Include="Trans\TSales.cs" />
+    <Compile Include="Trans\TSalesDet.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="RepositoryInterfaces\" />
+    <ProjectReference Include="..\YTech.Ltr.Enums\YTech.Ltr.Enums.csproj">
+      <Project>{BE189633-3BCD-4215-AA65-B3452C67A5A2}</Project>
+      <Name>YTech.Ltr.Enums</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

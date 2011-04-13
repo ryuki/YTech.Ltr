@@ -66,12 +66,23 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="NHibernateMaps\Master\MAgentMap.cs" />
+    <Compile Include="NHibernateMaps\Master\MAgentCommMap.cs" />
+    <Compile Include="NHibernateMaps\Master\MGameMap.cs" />
+    <Compile Include="NHibernateMaps\Trans\TResultMap.cs" />
+    <Compile Include="NHibernateMaps\Trans\TResultDetMap.cs" />
+    <Compile Include="NHibernateMaps\Trans\TSalesMap.cs" />
+    <Compile Include="NHibernateMaps\Trans\TSalesDetMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YTech.Ltr.Core\YTech.Ltr.Core.csproj">
       <Project>{7696B4F6-2A10-40C4-A1E2-B9768182588C}</Project>
       <Name>YTech.Ltr.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YTech.Ltr.Enums\YTech.Ltr.Enums.csproj">
+      <Project>{BE189633-3BCD-4215-AA65-B3452C67A5A2}</Project>
+      <Name>YTech.Ltr.Enums</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
