@@ -1,0 +1,1 @@
+alter table dbo.T_SALES_DET add SALES_DET_PRIZE numeric(18, 5) null

@@ -6,5 +6,6 @@ namespace YTech.Ltr.Core.RepositoryInterfaces
 {
     public interface ITSalesDetRepository : INHibernateRepositoryWithTypedId<TSalesDet, string>
     {
+        IList<TSalesDet> GetListByDateAndAgent(System.DateTime dateFrom, System.DateTime dateTo, string agentId);
     }
 }

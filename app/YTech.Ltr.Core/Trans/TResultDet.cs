@@ -9,9 +9,20 @@ namespace YTech.Ltr.Core.Trans
 {
     public class TResultDet : EntityWithTypedId<string>, IHasAssignedId<string>
     {
+        public TResultDet()
+        {
+        }
+
+        public TResultDet(TResult result)
+        {
+            Check.Require(result != null, "result may not be null");
+
+            ResultId = result;
+        }
+
         [DomainSignature]
         [NotNull, NotEmpty]
-        public virtual TResult ResultId { get; set; }
+        public virtual TResult ResultId { get; protected set; }
         public virtual MGame GameId { get; set; }
         public virtual int? ResultDetOrderNo { get; set; }
         public virtual string ResultDetNumber { get; set; }

@@ -9,6 +9,19 @@ namespace YTech.Ltr.Core.Trans
 {
     public class TSales : EntityWithTypedId<string>, IHasAssignedId<string>
     {
+        public TSales()
+        {
+            InitMembers();
+        }
+
+        /// <summary>
+        /// Since we want to leverage automatic properties, init appropriate members here.
+        /// </summary>
+        private void InitMembers()
+        {
+            SalesDets = new List<TSalesDet>();
+        }
+
         [DomainSignature]
         [NotNull, NotEmpty]
         public virtual MAgent AgentId { get; set; }
@@ -18,6 +31,8 @@ namespace YTech.Ltr.Core.Trans
         public virtual decimal? SalesMustPaid { get; set; }
         public virtual string SalesStatus { get; set; }
         public virtual string SalesDesc { get; set; }
+
+        public virtual IList<TSalesDet> SalesDets { get; protected set; }
 
         public virtual string DataStatus { get; set; }
         public virtual string CreatedBy { get; set; }

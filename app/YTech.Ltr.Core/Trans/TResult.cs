@@ -9,11 +9,26 @@ namespace YTech.Ltr.Core.Trans
 {
     public class TResult : EntityWithTypedId<string>, IHasAssignedId<string>
     {
+        public TResult()
+        {
+            InitMembers();
+        }
+
+        /// <summary>
+        /// Since we want to leverage automatic properties, init appropriate members here.
+        /// </summary>
+        private void InitMembers()
+        {
+            ResultDets = new List<TResultDet>();
+        }
+
         [DomainSignature]
         [NotNull, NotEmpty]
         public virtual DateTime? ResultDate { get; set; }
         public virtual string ResultStatus { get; set; }
         public virtual string ResultDesc { get; set; }
+
+        public virtual IList<TResultDet> ResultDets { get; protected set; }
 
         public virtual string DataStatus { get; set; }
         public virtual string CreatedBy { get; set; }

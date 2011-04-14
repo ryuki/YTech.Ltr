@@ -74,6 +74,13 @@
     <Compile Include="NHibernateMaps\Trans\TSalesMap.cs" />
     <Compile Include="NHibernateMaps\Trans\TSalesDetMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IMAgentCommRepository.cs" />
+    <Compile Include="Repository\IMAgentRepository.cs" />
+    <Compile Include="Repository\IMGameRepository.cs" />
+    <Compile Include="Repository\ITResultDetRepository.cs" />
+    <Compile Include="Repository\ITResultRepository.cs" />
+    <Compile Include="Repository\ITSalesDetRepository.cs" />
+    <Compile Include="Repository\ITSalesRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YTech.Ltr.Core\YTech.Ltr.Core.csproj">
