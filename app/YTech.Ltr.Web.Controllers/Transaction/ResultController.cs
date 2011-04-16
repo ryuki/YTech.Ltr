@@ -62,9 +62,37 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             result.ResultDets.Clear();
             _tResultRepository.Save(result);
 
+            //get prize for D2 and D3 games
+            string prizeD2 = viewModel.prizeD4_1.Substring(2, 2);
+            string prizeD3 = viewModel.prizeD4_1.Substring(1, 3);
+
+            //save details
+            SaveResultDet(result, EnumGame.D2, 1, prizeD2);
+            SaveResultDet(result, EnumGame.D3, 1, prizeD3);
             SaveResultDet(result, EnumGame.D4_1, 1, viewModel.prizeD4_1);
             SaveResultDet(result, EnumGame.D4_2, 1, viewModel.prizeD4_2);
             SaveResultDet(result, EnumGame.D4_3, 1, viewModel.prizeD4_3);
+            SaveResultDet(result, EnumGame.D4_4, 1, viewModel.prizeD4_4_1);
+            SaveResultDet(result, EnumGame.D4_4, 2, viewModel.prizeD4_4_2);
+            SaveResultDet(result, EnumGame.D4_4, 3, viewModel.prizeD4_4_3);
+            SaveResultDet(result, EnumGame.D4_4, 4, viewModel.prizeD4_4_4);
+            SaveResultDet(result, EnumGame.D4_4, 5, viewModel.prizeD4_4_5);
+            SaveResultDet(result, EnumGame.D4_4, 6, viewModel.prizeD4_4_6);
+            SaveResultDet(result, EnumGame.D4_4, 7, viewModel.prizeD4_4_7);
+            SaveResultDet(result, EnumGame.D4_4, 8, viewModel.prizeD4_4_8);
+            SaveResultDet(result, EnumGame.D4_4, 9, viewModel.prizeD4_4_9);
+            SaveResultDet(result, EnumGame.D4_4, 10, viewModel.prizeD4_4_10);
+
+            SaveResultDet(result, EnumGame.D4_5, 1, viewModel.prizeD4_5_1);
+            SaveResultDet(result, EnumGame.D4_5, 2, viewModel.prizeD4_5_2);
+            SaveResultDet(result, EnumGame.D4_5, 3, viewModel.prizeD4_5_3);
+            SaveResultDet(result, EnumGame.D4_5, 4, viewModel.prizeD4_5_4);
+            SaveResultDet(result, EnumGame.D4_5, 5, viewModel.prizeD4_5_5);
+            SaveResultDet(result, EnumGame.D4_5, 6, viewModel.prizeD4_5_6);
+            SaveResultDet(result, EnumGame.D4_5, 7, viewModel.prizeD4_5_7);
+            SaveResultDet(result, EnumGame.D4_5, 8, viewModel.prizeD4_5_8);
+            SaveResultDet(result, EnumGame.D4_5, 9, viewModel.prizeD4_5_9);
+            SaveResultDet(result, EnumGame.D4_5, 10, viewModel.prizeD4_5_10);
 
             bool Success = true;
             string Message = string.Empty;
@@ -111,13 +139,56 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             string prizeD4_1 = string.Empty;
             string prizeD4_2 = string.Empty;
             string prizeD4_3 = string.Empty;
+            string prizeD4_4_1 = string.Empty;
+            string prizeD4_4_2 = string.Empty;
+            string prizeD4_4_3 = string.Empty;
+            string prizeD4_4_4 = string.Empty;
+            string prizeD4_4_5 = string.Empty;
+            string prizeD4_4_6 = string.Empty;
+            string prizeD4_4_7 = string.Empty;
+            string prizeD4_4_8 = string.Empty;
+            string prizeD4_4_9 = string.Empty;
+            string prizeD4_4_10 = string.Empty;
+
+            string prizeD4_5_1 = string.Empty;
+            string prizeD4_5_2 = string.Empty;
+            string prizeD4_5_3 = string.Empty;
+            string prizeD4_5_4 = string.Empty;
+            string prizeD4_5_5 = string.Empty;
+            string prizeD4_5_6 = string.Empty;
+            string prizeD4_5_7 = string.Empty;
+            string prizeD4_5_8 = string.Empty;
+            string prizeD4_5_9 = string.Empty;
+            string prizeD4_5_10 = string.Empty;
+
 
             //check if list return data, get result detail
             if (list.Count > 0)
             {
                 prizeD4_1 = GetResultDet(list, EnumGame.D4_1.ToString(), 1);
                 prizeD4_2 = GetResultDet(list, EnumGame.D4_2.ToString(), 1);
-                prizeD4_3 = GetResultDet(list, EnumGame.D4_3.ToString(), 1);  
+                prizeD4_3 = GetResultDet(list, EnumGame.D4_3.ToString(), 1);
+                prizeD4_4_1 = GetResultDet(list, EnumGame.D4_4.ToString(), 1);
+                prizeD4_4_2 = GetResultDet(list, EnumGame.D4_4.ToString(), 2);
+                prizeD4_4_3 = GetResultDet(list, EnumGame.D4_4.ToString(), 3);
+                prizeD4_4_4 = GetResultDet(list, EnumGame.D4_4.ToString(), 4);
+                prizeD4_4_5 = GetResultDet(list, EnumGame.D4_4.ToString(), 5);
+                prizeD4_4_6 = GetResultDet(list, EnumGame.D4_4.ToString(), 6);
+                prizeD4_4_7 = GetResultDet(list, EnumGame.D4_4.ToString(), 7);
+                prizeD4_4_8 = GetResultDet(list, EnumGame.D4_4.ToString(), 8);
+                prizeD4_4_9 = GetResultDet(list, EnumGame.D4_4.ToString(), 9);
+                prizeD4_4_10 = GetResultDet(list, EnumGame.D4_4.ToString(), 10);
+
+                prizeD4_5_1 = GetResultDet(list, EnumGame.D4_5.ToString(), 1);
+                prizeD4_5_2 = GetResultDet(list, EnumGame.D4_5.ToString(), 2);
+                prizeD4_5_3 = GetResultDet(list, EnumGame.D4_5.ToString(), 3);
+                prizeD4_5_4 = GetResultDet(list, EnumGame.D4_5.ToString(), 4);
+                prizeD4_5_5 = GetResultDet(list, EnumGame.D4_5.ToString(), 5);
+                prizeD4_5_6 = GetResultDet(list, EnumGame.D4_5.ToString(), 6);
+                prizeD4_5_7 = GetResultDet(list, EnumGame.D4_5.ToString(), 7);
+                prizeD4_5_8 = GetResultDet(list, EnumGame.D4_5.ToString(), 8);
+                prizeD4_5_9 = GetResultDet(list, EnumGame.D4_5.ToString(), 9);
+                prizeD4_5_10 = GetResultDet(list, EnumGame.D4_5.ToString(), 10);
             }
 
             //json it
@@ -125,7 +196,27 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             {
                 prizeD4_1,
                 prizeD4_2,
-                prizeD4_3
+                prizeD4_3,
+                prizeD4_4_1,
+                prizeD4_4_2,
+                prizeD4_4_3,
+                prizeD4_4_4,
+                prizeD4_4_5,
+                prizeD4_4_6,
+                prizeD4_4_7,
+                prizeD4_4_8,
+                prizeD4_4_9,
+                prizeD4_4_10,
+                prizeD4_5_1,
+                prizeD4_5_2,
+                prizeD4_5_3,
+                prizeD4_5_4,
+                prizeD4_5_5,
+                prizeD4_5_6,
+                prizeD4_5_7,
+                prizeD4_5_8,
+                prizeD4_5_9,
+                prizeD4_5_10,
             };
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -135,6 +226,37 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             return (from det in list
                     where det.GameId.Id == gameId && det.ResultDetOrderNo == orderNo
                     select det.ResultDetNumber).First();
+        }
+
+        [Transaction]
+        public ActionResult CalculatePrize(DateTime? resultDate)
+        {
+            bool Success = true;
+            string Message = string.Empty;
+            _tResultRepository.DbContext.BeginTransaction();
+
+            try
+            {
+                _tResultRepository.CalculatePrize(resultDate.Value);
+                _tResultRepository.DbContext.CommitTransaction();
+                TempData[EnumCommonViewData.SaveState.ToString()] = EnumSaveState.Success;
+                Success = true;
+                Message = "Nomor keluar berhasil dihitung.";
+            }
+            catch (Exception ex)
+            {
+                _tResultRepository.DbContext.RollbackTransaction();
+                TempData[EnumCommonViewData.SaveState.ToString()] = EnumSaveState.Failed;
+                Success = false;
+                Message = ex.GetBaseException().Message;
+            }
+
+            var e = new
+            {
+                Success,
+                Message
+            };
+            return Json(e, JsonRequestBehavior.AllowGet);
         }
     }
 }
