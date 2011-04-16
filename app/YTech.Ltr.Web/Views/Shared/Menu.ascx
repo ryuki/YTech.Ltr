@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl" %>
-<%@ Import Namespace="YTech.Ltr.Web.Controllers" %>
 <%@ Import Namespace="YTech.Ltr.Web.Controllers.Transaction" %>
+<%@ Import Namespace="YTech.Ltr.Web.Controllers.Master" %>
 
 <div id="accordion">
     <h3>
@@ -16,7 +16,7 @@
         <a href="#">Data Pokok</a></h3>
     <div>
         <div>
-           Master Agen
+           <%=Html.ActionLinkForAreas<AgenController>(c => c.Index(), "Master Agen") %>
             </div>
         <div>
            Master Hadiah 
