@@ -7,6 +7,7 @@ namespace YTech.Ltr.Web.Controllers.Master
     {
         public ActionResult Index()
         {
+            ViewData["CurrentItem"] = "Form Penjualan";
             return View();
         }
     }
