@@ -12,7 +12,7 @@ namespace YTech.Ltr.Data.Repository
 {
     public class TSalesDetRepository : NHibernateRepositoryWithTypedId<TSalesDet, string>, ITSalesDetRepository
     {
-        public IList<TSalesDet> GetListByDateAndAgent(DateTime dateFrom, DateTime dateTo, string agentId)
+        public IList<TSalesDet> GetListByDateAndAgent(DateTime dateFrom, DateTime dateTo, string agentId, string salesDetStatus)
         {
             StringBuilder sql = new StringBuilder();
             sql.AppendLine(@"   select det
@@ -23,11 +23,19 @@ namespace YTech.Ltr.Data.Repository
             {
                 sql.AppendLine(@"   and s.AgentId.Id = :agentId");
             }
+            if (!string.IsNullOrEmpty(salesDetStatus))
+            {
+                sql.AppendLine(@"   and det.SalesDetStatus = :salesDetStatus");
+            }
             sql.AppendLine(@"   and s.SalesDate between :dateFrom and :dateTo ");
             IQuery q = Session.CreateQuery(sql.ToString());
             if (!string.IsNullOrEmpty(agentId))
             {
                 q.SetString("agentId", agentId);
+            }
+            if (!string.IsNullOrEmpty(salesDetStatus))
+            {
+                q.SetString("salesDetStatus", salesDetStatus);
             }
             q.SetDateTime("dateFrom", dateFrom);
             q.SetDateTime("dateTo", dateTo);

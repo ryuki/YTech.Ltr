@@ -39,10 +39,10 @@
         <a href="#">Laporan</a></h3>
     <div>
         <div>
-            <%= Html.ActionLinkForAreas<ReportController>(c => c.Report(EnumReport.RptRecapSales), "Lap. Rekap Penjualan")%>
+            <%= Html.ActionLinkForAreas<ReportController>(c => c.Report(EnumReport.RptDetailSales), "Lap. Detail Penjualan")%>
         </div>
         <div>
-          
+           <%= Html.ActionLinkForAreas<ReportController>(c => c.Report(EnumReport.RptRecapWinSales), "Lap. Rekap Penjualan Yg Menang")%>
         </div>
         <div>
             <hr />

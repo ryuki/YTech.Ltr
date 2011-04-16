@@ -46,6 +46,20 @@ namespace YTech.Ltr.Web.Controllers.Transaction
                     viewModel.ShowAgent = true;
 
                     break;
+                case EnumReport.RptDetailSales:
+                    title = "Lap. Detail Penjualan";
+                    viewModel.ShowDateFrom = true;
+                    viewModel.ShowDateTo = true;
+                    viewModel.ShowAgent = true;
+
+                    break;
+                case EnumReport.RptRecapWinSales:
+                    title = "Lap. Rekap Penjualan Yg Menang";
+                    viewModel.ShowDateFrom = true;
+                    viewModel.ShowDateTo = true;
+                    viewModel.ShowAgent = true;
+
+                    break;
             }
             ViewData["CurrentItem"] = title;
 
@@ -63,6 +77,12 @@ namespace YTech.Ltr.Web.Controllers.Transaction
                 case EnumReport.RptRecapSales:
                     repCol[0] = GetSalesDet(viewModel.DateFrom.Value, viewModel.DateTo.Value, viewModel.AgentId);
                     break;
+                case EnumReport.RptDetailSales:
+                    repCol[0] = GetSalesDet(viewModel.DateFrom.Value, viewModel.DateTo.Value, viewModel.AgentId);
+                    break;
+                case EnumReport.RptRecapWinSales:
+                    repCol[0] = GetSalesDet(viewModel.DateFrom.Value, viewModel.DateTo.Value, viewModel.AgentId, EnumSalesDetStatus.Win.ToString());
+                    break;
             }
             Session["ReportData"] = repCol;
 
@@ -75,9 +95,9 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             return Json(e, JsonRequestBehavior.AllowGet);
         }
 
-        private ReportDataSource GetSalesDet(DateTime dateFrom, DateTime dateTo, string agentId)
+        private ReportDataSource GetSalesDet(DateTime dateFrom, DateTime dateTo, string agentId, string salesDetStatus)
         {
-            IList<TSalesDet> dets = _tSalesDetRepository.GetListByDateAndAgent(dateFrom, dateTo, agentId);
+            IList<TSalesDet> dets = _tSalesDetRepository.GetListByDateAndAgent(dateFrom, dateTo, agentId, salesDetStatus);
 
             var list = from det in dets
                        select new
@@ -99,6 +119,11 @@ namespace YTech.Ltr.Web.Controllers.Transaction
 
             ReportDataSource reportDataSource = new ReportDataSource("SalesDetViewModel", list.ToList());
             return reportDataSource;
+        }
+
+        private ReportDataSource GetSalesDet(DateTime dateFrom, DateTime dateTo, string agentId)
+        {
+            return GetSalesDet(dateFrom, dateTo, agentId, null);
         }
     }
 }
