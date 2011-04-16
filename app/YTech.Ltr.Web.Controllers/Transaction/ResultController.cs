@@ -108,10 +108,19 @@ namespace YTech.Ltr.Web.Controllers.Transaction
         public ActionResult GetDetailByDate(DateTime? resultDate)
         {
             IList<TResultDet> list = _tResultDetRepository.GetListByDate(resultDate.Value);
-            var prizeD4_1 = GetResultDet(list, EnumGame.D4_1.ToString(), 1);
-            var prizeD4_2 = GetResultDet(list, EnumGame.D4_2.ToString(), 1);
-            var prizeD4_3 = GetResultDet(list, EnumGame.D4_3.ToString(), 1);
+            string prizeD4_1 = string.Empty;
+            string prizeD4_2 = string.Empty;
+            string prizeD4_3 = string.Empty;
 
+            //check if list return data, get result detail
+            if (list.Count > 0)
+            {
+                prizeD4_1 = GetResultDet(list, EnumGame.D4_1.ToString(), 1);
+                prizeD4_2 = GetResultDet(list, EnumGame.D4_2.ToString(), 1);
+                prizeD4_3 = GetResultDet(list, EnumGame.D4_3.ToString(), 1);  
+            }
+
+            //json it
             var res = new
             {
                 prizeD4_1,
