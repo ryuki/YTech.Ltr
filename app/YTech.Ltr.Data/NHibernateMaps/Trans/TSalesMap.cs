@@ -34,10 +34,12 @@ namespace YTech.Ltr.Data.NHibernateMaps.Trans
             mapping.Map(x => x.CreatedDate, "CREATED_DATE");
             mapping.Map(x => x.ModifiedBy, "MODIFIED_BY");
             mapping.Map(x => x.ModifiedDate, "MODIFIED_DATE");
-            //mapping.Version(x => x.RowVersion)
-            //    .Column("ROW_VERSION")
-            //  .CustomType("byte[]")
-            //     .Generated.Always();
+            mapping.Version(x => x.RowVersion)
+                .Column("ROW_VERSION")
+                //.CustomType("BinaryBlob")
+                .CustomSqlType("Timestamp")
+                .Not.Nullable()
+                .Generated.Always();
 
             mapping.HasMany(x => x.SalesDets)
                 .AsBag()
