@@ -15,6 +15,7 @@ namespace YTech.Ltr.Data.NHibernateMaps.Trans
             mapping.DynamicInsert();
             mapping.SelectBeforeUpdate();
             mapping.Cache.ReadWrite();
+            mapping.OptimisticLock.Dirty();
 
             mapping.Table("dbo.T_SALES_DET");
             mapping.Id(x => x.Id, "SALES_DET_ID")

@@ -15,6 +15,7 @@ namespace YTech.Ltr.Data.NHibernateMaps.Master
             mapping.DynamicInsert();
             mapping.SelectBeforeUpdate();
             mapping.Cache.ReadWrite();
+            mapping.OptimisticLock.Dirty();
 
             mapping.Table("dbo.M_AGENT");
             mapping.Id(x => x.Id, "AGENT_ID")
