@@ -9,7 +9,7 @@ namespace YTech.Ltr.Web.Controllers.Master
             get { return "Master"; }
         }
 
-        public override void RegisterArea(System.Web.Mvc.AreaRegistrationContext context)
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                     "Master_default",
