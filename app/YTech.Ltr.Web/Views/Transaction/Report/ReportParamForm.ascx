@@ -75,7 +75,7 @@
     }
     
     $(document).ready(function () {
-        $("#Save").button();
+       // $("#Save").button();
         $("#DateFrom").datepicker({ dateFormat: "dd-M-yy" });
         $("#DateTo").datepicker({ dateFormat: "dd-M-yy" });
     });

@@ -33,11 +33,11 @@ namespace YTech.Ltr.Web.Controllers.Transaction
         }
 
         [Transaction]
-        public ActionResult Report(EnumReport reports)
+        public ActionResult Report(EnumReport rpt)
         {
             ReportParamViewModel viewModel = ReportParamViewModel.Create(_mAgentRepository);
             string title = string.Empty;
-            switch (reports)
+            switch (rpt)
             {
                 case EnumReport.RptRecapSales:
                     title = "Lap. Rekap Penjualan";
@@ -55,10 +55,10 @@ namespace YTech.Ltr.Web.Controllers.Transaction
         [ValidateAntiForgeryToken]      // Helps avoid CSRF attacks
         [Transaction]                   // Wraps a transaction around the action
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Report(EnumReport report, ReportParamViewModel viewModel, FormCollection formCollection)
+        public ActionResult Report(EnumReport rpt, ReportParamViewModel viewModel, FormCollection formCollection)
         {
             ReportDataSource[] repCol = new ReportDataSource[1];
-            switch (report)
+            switch (rpt)
             {
                 case EnumReport.RptRecapSales:
                     repCol[0] = GetSalesDet(viewModel.DateFrom.Value, viewModel.DateTo.Value, viewModel.AgentId);
@@ -70,7 +70,7 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             {
                 Success = true,
                 Message = "redirect",
-                UrlReport = string.Format("{0}", report.ToString())
+                UrlReport = string.Format("{0}", rpt.ToString())
             };
             return Json(e, JsonRequestBehavior.AllowGet);
         }
@@ -82,8 +82,8 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             var list = from det in dets
                        select new
                        {
-                           AgentId = det.SalesId.AgentId.Id,
-                           AgentName = det.SalesId.AgentId.AgentName,
+                           AgentId = det.SalesId.AgentId != null ? det.SalesId.AgentId.Id : null,
+                           AgentName = det.SalesId.AgentId != null ? det.SalesId.AgentId.AgentName : null,
                            det.GameId.GameName,
                            det.SalesDetComm,
                            det.SalesDetDesc,
