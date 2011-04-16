@@ -6,5 +6,6 @@ namespace YTech.Ltr.Core.RepositoryInterfaces
 {
     public interface ITResultDetRepository : INHibernateRepositoryWithTypedId<TResultDet, string>
     {
+        IList<TResultDet> GetListByDate(System.DateTime resultDate);
     }
 }

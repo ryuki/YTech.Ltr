@@ -30,7 +30,7 @@
             Penjualan
             </div>
         <div>
-           Hasil
+           <%= Html.ActionLinkForAreas<ResultController>(c => c.Result(null), "Input Nomor Keluar")%>
            </div>
       
     </div>

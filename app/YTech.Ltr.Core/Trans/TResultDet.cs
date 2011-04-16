@@ -34,7 +34,7 @@ namespace YTech.Ltr.Core.Trans
         public virtual DateTime? CreatedDate { get; set; }
         public virtual string ModifiedBy { get; set; }
         public virtual DateTime? ModifiedDate { get; set; }
-        public virtual byte[] RowVersion { get; set; }
+        //public virtual byte[] RowVersion { get; set; }
 
         #region Implementation of IHasAssignedId<string>
 

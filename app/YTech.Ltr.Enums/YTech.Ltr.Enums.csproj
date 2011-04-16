@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="EnumCommonViewData.cs" />
     <Compile Include="EnumDataStatus.cs" />
+    <Compile Include="EnumGame.cs" />
     <Compile Include="EnumReport.cs" />
     <Compile Include="EnumSalesDetStatus.cs" />
     <Compile Include="EnumSaveState.cs" />

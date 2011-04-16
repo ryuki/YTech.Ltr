@@ -20,7 +20,7 @@ namespace YTech.Ltr.Data.NHibernateMaps.Trans
             mapping.Id(x => x.Id, "SALES_ID")
                  .GeneratedBy.Assigned();
 
-            mapping.References(x => x.AgentId, "AGENT_ID").LazyLoad(); 
+            mapping.References(x => x.AgentId, "AGENT_ID").LazyLoad();
             mapping.Map(x => x.SalesNo, "SALES_NO");
             mapping.Map(x => x.SalesDate, "SALES_DATE");
             mapping.Map(x => x.SalesTotal, "SALES_TOTAL");
@@ -33,7 +33,17 @@ namespace YTech.Ltr.Data.NHibernateMaps.Trans
             mapping.Map(x => x.CreatedDate, "CREATED_DATE");
             mapping.Map(x => x.ModifiedBy, "MODIFIED_BY");
             mapping.Map(x => x.ModifiedDate, "MODIFIED_DATE");
-            mapping.Version(x => x.RowVersion).Column("ROW_VERSION");
+            //mapping.Version(x => x.RowVersion)
+            //    .Column("ROW_VERSION")
+            //  .CustomType("byte[]")
+            //     .Generated.Always();
+
+            mapping.HasMany(x => x.SalesDets)
+                .AsBag()
+                .Inverse()
+                .KeyColumn("SALES_ID")
+                .LazyLoad()
+                .Cascade.All(); 
         }
 
         #endregion

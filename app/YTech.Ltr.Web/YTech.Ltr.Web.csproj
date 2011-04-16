@@ -245,6 +245,7 @@
     <Content Include="Views\Shared\Status.ascx" />
     <Content Include="Views\Transaction\Report\Report.aspx" />
     <Content Include="Views\Transaction\Report\ReportParamForm.ascx" />
+    <Content Include="Views\Transaction\Result\Result.aspx" />
     <Content Include="Views\Utility\UserAccount\ChangePassword.aspx" />
     <Content Include="Views\Utility\UserAccount\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Utility\UserAccount\LogOn.aspx" />
@@ -285,6 +286,7 @@
   <ItemGroup>
     <Content Include="Views\Transaction\Report\RptRecapSales.rdlc" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <Target Name="BeforeBuild">

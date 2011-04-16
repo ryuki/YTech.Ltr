@@ -15,6 +15,7 @@ namespace YTech.Ltr.Data.NHibernateMaps.Trans
             mapping.DynamicInsert();
             mapping.SelectBeforeUpdate();
             mapping.Cache.ReadWrite();
+            mapping.OptimisticLock.Dirty();
 
             mapping.Table("dbo.T_RESULT_DET");
             mapping.Id(x => x.Id, "RESULT_DET_ID")
@@ -32,7 +33,12 @@ namespace YTech.Ltr.Data.NHibernateMaps.Trans
             mapping.Map(x => x.CreatedDate, "CREATED_DATE");
             mapping.Map(x => x.ModifiedBy, "MODIFIED_BY");
             mapping.Map(x => x.ModifiedDate, "MODIFIED_DATE");
-            mapping.Version(x => x.RowVersion).Column("ROW_VERSION");
+            //mapping.Version(x => x.RowVersion)
+            //    .Column("ROW_VERSION")
+            //    //.CustomType("BinaryBlob")
+            //    .CustomSqlType("timestamp")
+            //    .Not.Nullable()
+            //    .Generated.Always();
         }
 
         #endregion
