@@ -16,18 +16,15 @@
         <a href="#">Data Pokok</a></h3>
     <div>
         <div>
-           <%=Html.ActionLinkForAreas<AgenController>(c => c.Index(), "Master Agen") %>
-            </div>
-        <div>
-           Master Hadiah 
-           </div>       
+           <%=Html.ActionLinkForAreas<AgentController>(c => c.Index(), "Master Agen") %>
+            </div>     
     </div>
    
     <h3>
         <a href="#">Transaksi</a></h3>
     <div>
         <div>
-            Penjualan
+             <%= Html.ActionLinkForAreas<SalesController>(c => c.Sales(), "Input Penjualan")%>
             </div>
         <div>
            <%= Html.ActionLinkForAreas<ResultController>(c => c.Result(null), "Input Nomor Keluar")%>
@@ -40,6 +37,12 @@
     <div>
         <div>
             <%= Html.ActionLinkForAreas<ReportController>(c => c.Report(EnumReport.RptDetailSales), "Lap. Detail Penjualan")%>
+        </div>
+        <div>
+            <%= Html.ActionLinkForAreas<ReportController>(c => c.Report(EnumReport.RptRecapSalesByAgent), "Lap. Rekap Penjualan")%>
+        </div>
+        <div>
+            <%= Html.ActionLinkForAreas<ReportController>(c => c.Report(EnumReport.RptRecapSalesByGame), "Lap. Rekap Penjualan Per Game")%>
         </div>
         <div>
            <%= Html.ActionLinkForAreas<ReportController>(c => c.Report(EnumReport.RptRecapWinSales), "Lap. Rekap Penjualan Yg Menang")%>

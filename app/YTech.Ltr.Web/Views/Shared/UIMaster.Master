@@ -33,7 +33,7 @@
         $(document).ready(function () {
             // create the OUTER LAYOUT
             outerLayout = $("body").layout(
-             $.extend( layoutSettings_Outer, layoutState.load('myLayout') )            
+             $.extend(layoutSettings_Outer, layoutState.load('myLayout'))
             );
             $("#accordion").accordion({
                 autoHeight: true,
@@ -41,7 +41,8 @@
                 fillSpace: true
             });
 
-            var path = location.pathname.substring(1);
+            var path = location.pathname + location.search + location.hash;
+            //alert(path);
             if (path)
                 $('#accordion a[href$="' + path + '"]').parent().attr('class', 'selected');
             /*******************************
@@ -57,11 +58,11 @@
             */
 
             // BIND events to hard-coded buttons in the NORTH toolbar
-//            outerLayout.addToggleBtn("#tbarToggleNorth", "north");
-//            outerLayout.addOpenBtn("#tbarOpenSouth", "south");
-//            outerLayout.addCloseBtn("#tbarCloseSouth", "south");
-//            outerLayout.addPinBtn("#tbarPinWest", "west");
-//            outerLayout.addPinBtn("#tbarPinEast", "east");
+            //            outerLayout.addToggleBtn("#tbarToggleNorth", "north");
+            //            outerLayout.addOpenBtn("#tbarOpenSouth", "south");
+            //            outerLayout.addCloseBtn("#tbarCloseSouth", "south");
+            //            outerLayout.addPinBtn("#tbarPinWest", "west");
+            //            outerLayout.addPinBtn("#tbarPinEast", "east");
 
             // save selector strings to vars so we don't have to repeat it
             // must prefix paneClass with "body > " to target ONLY the outerLayout panes

@@ -65,6 +65,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="RptDetailSales.rdlc" />
+    <Content Include="RptRecapSalesByAgent.rdlc" />
+    <Content Include="RptRecapWinSales.rdlc" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -77,8 +79,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Content Include="RptRecapSales.rdlc" />
-    <Content Include="RptRecapWinSales.rdlc" />
+    <Content Include="RptRecapSalesByGame.rdlc" />
     <None Include="Properties\DataSources\YTech.Ltr.Web.Controllers.ViewModel.Report.SalesDetViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

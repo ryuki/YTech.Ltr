@@ -2,8 +2,9 @@ namespace YTech.Ltr.Enums
 {
     public enum EnumReport
     {
-        RptRecapSales,
+        RptRecapSalesByAgent,
         RptDetailSales,
-        RptRecapWinSales
+        RptRecapWinSales,
+        RptRecapSalesByGame
     }
 }

@@ -50,11 +50,23 @@
        {	%>
     <tr>
         <td>
-            <label for="AgenId">
+            <label for="AgentId">
                 Agen :</label>
         </td>
         <td>
-            <%= Html.DropDownList("AgenId", Model.AgentList)%>
+            <%= Html.DropDownList("AgentId", Model.AgentList)%>
+        </td>
+    </tr>
+    <% } %>
+    <% if (ViewData.Model.ShowGame)
+       {	%>
+    <tr>
+        <td>
+            <label for="GameId">
+                Game :</label>
+        </td>
+        <td>
+            <%= Html.DropDownList("GameId", Model.GameList)%>
         </td>
     </tr>
     <% } %>

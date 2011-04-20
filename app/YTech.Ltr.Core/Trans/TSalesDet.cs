@@ -57,14 +57,14 @@ namespace YTech.Ltr.Core.Trans
                 {
                     return 0;
                 }
-                decimal grandtotal = SalesDetTotal.Value;
+                decimal total = SalesDetTotal.Value;
                 if (SalesDetPrize.HasValue)
                 {
                     decimal prize = SalesDetPrize.Value;
-                    decimal value = SalesDetValue.Value;
-                    grandtotal = grandtotal - (prize * value);
+                    decimal detValue = SalesDetValue.Value;
+                    total = total - (prize * detValue);
                 }
-                return grandtotal;
+                return total;
             }
         }
 

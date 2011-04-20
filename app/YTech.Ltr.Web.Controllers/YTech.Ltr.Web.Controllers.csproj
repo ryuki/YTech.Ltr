@@ -94,6 +94,7 @@
     <Compile Include="RouteRegistrar.cs" />
     <Compile Include="Transaction\ReportController.cs" />
     <Compile Include="Transaction\ResultController.cs" />
+    <Compile Include="Transaction\SalesController.cs" />
     <Compile Include="Transaction\TransactionAreaRegistration.cs" />
     <Compile Include="Utility\UserAccountController.cs" />
     <Compile Include="Utility\UserAdministrationController.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="ViewModel\ReportParamViewModel.cs" />
     <Compile Include="ViewModel\Report\SalesDetViewModel.cs" />
     <Compile Include="ViewModel\ResultViewModel.cs" />
+    <Compile Include="ViewModel\SalesViewModel.cs" />
     <Compile Include="ViewModel\UserAdministration\DetailsViewModel.cs" />
     <Compile Include="ViewModel\UserAdministration\IndexViewModel.cs" />
     <Compile Include="ViewModel\UserAdministration\RoleViewModel.cs" />

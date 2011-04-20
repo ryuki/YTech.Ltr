@@ -12,7 +12,7 @@ namespace YTech.Ltr.Data.Repository
 {
     public class TSalesDetRepository : NHibernateRepositoryWithTypedId<TSalesDet, string>, ITSalesDetRepository
     {
-        public IList<TSalesDet> GetListByDateAndAgent(DateTime dateFrom, DateTime dateTo, string agentId, string salesDetStatus)
+        public IList<TSalesDet> GetListByDateAndAgent(DateTime dateFrom, DateTime dateTo, string agentId, string gameId, string salesDetStatus)
         {
             StringBuilder sql = new StringBuilder();
             sql.AppendLine(@"   select det
@@ -23,6 +23,10 @@ namespace YTech.Ltr.Data.Repository
             {
                 sql.AppendLine(@"   and s.AgentId.Id = :agentId");
             }
+            if (!string.IsNullOrEmpty(gameId))
+            {
+                sql.AppendLine(@"   and det.GameId.Id = :gameId");
+            }
             if (!string.IsNullOrEmpty(salesDetStatus))
             {
                 sql.AppendLine(@"   and det.SalesDetStatus = :salesDetStatus");
@@ -32,6 +36,10 @@ namespace YTech.Ltr.Data.Repository
             if (!string.IsNullOrEmpty(agentId))
             {
                 q.SetString("agentId", agentId);
+            }
+            if (!string.IsNullOrEmpty(gameId))
+            {
+                q.SetString("gameId", gameId);
             }
             if (!string.IsNullOrEmpty(salesDetStatus))
             {

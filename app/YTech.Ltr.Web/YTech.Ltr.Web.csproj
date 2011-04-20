@@ -237,7 +237,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\NumberFormat.js" />
     <Content Include="Views\Home\Index.aspx" />
-    <Content Include="Views\Master\Agen\Index.aspx" />
+    <Content Include="Views\Master\Agent\Index.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
     <Content Include="Views\Shared\Js.ascx" />
@@ -247,6 +247,7 @@
     <Content Include="Views\Transaction\Report\Report.aspx" />
     <Content Include="Views\Transaction\Report\ReportParamForm.ascx" />
     <Content Include="Views\Transaction\Result\Result.aspx" />
+    <Content Include="Views\Transaction\Sales\Sales.aspx" />
     <Content Include="Views\Utility\UserAccount\ChangePassword.aspx" />
     <Content Include="Views\Utility\UserAccount\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Utility\UserAccount\LogOn.aspx" />
@@ -263,6 +264,10 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YTech.Ltr.ApplicationServices\YTech.Ltr.ApplicationServices.csproj">
+      <Project>{EA00777D-3D7A-4406-8BFB-E5A90CF0E8A9}</Project>
+      <Name>YTech.Ltr.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YTech.Ltr.Enums\YTech.Ltr.Enums.csproj">
       <Project>{BE189633-3BCD-4215-AA65-B3452C67A5A2}</Project>
       <Name>YTech.Ltr.Enums</Name>
@@ -287,13 +292,16 @@
     <Content Include="Views\Shared\UIMaster.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Transaction\Report\RptRecapSales.rdlc" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Transaction\Report\RptDetailSales.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Transaction\Report\RptRecapWinSales.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Transaction\Report\RptRecapSalesByGame.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Transaction\Report\RptRecapSalesByAgent.rdlc" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -306,17 +314,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1062</DevelopmentServerPort>
-          <DevelopmentServerVPath>/Ltr</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
