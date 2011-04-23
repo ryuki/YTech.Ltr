@@ -18,11 +18,17 @@ namespace YTech.Ltr.Web.Controllers.Master
     public class AgentController : Controller
     {
         private readonly IMAgentRepository _mAgentRepository;
-        public AgentController(IMAgentRepository mAgentRepository)
+        private readonly IMAgentCommRepository _mAgentCommRepository;
+        private readonly IMGameRepository _mGameRepository;
+        public AgentController(IMAgentRepository mAgentRepository, IMAgentCommRepository mAgentCommRepository, IMGameRepository mGameRepository)
         {
             Check.Require(mAgentRepository != null, "mAgentRepository may not be null");
+            Check.Require(mAgentCommRepository != null, "mAgentCommRepository may not be null");
+            Check.Require(mGameRepository != null, "mGameRepository may not be null");
 
             this._mAgentRepository = mAgentRepository;
+            this._mAgentCommRepository = mAgentCommRepository;
+            this._mGameRepository = mGameRepository;
         }
 
         public ActionResult Index()
@@ -48,6 +54,7 @@ namespace YTech.Ltr.Web.Controllers.Master
                     {
                         i = Agent.Id,
                         cell = new string[] {
+                            string.Empty,
                             Agent.Id, 
                             Agent.AgentName, 
                           Agent.AgentDesc
@@ -141,6 +148,36 @@ namespace YTech.Ltr.Web.Controllers.Master
         {
             mItemCatToUpdate.AgentName = mItemCatFromForm.AgentName;
             mItemCatToUpdate.AgentDesc = mItemCatFromForm.AgentDesc;
+        }
+
+        [Transaction]
+        public ActionResult Commission(string agentId)
+        {
+            AgentCommViewModel viewModel = AgentCommViewModel.Create(_mGameRepository);
+            return View(viewModel);
+        }
+
+        [Transaction]
+        public ActionResult ListAgentCommForSubGrid(string id)
+        {
+            var agentComms = _mAgentCommRepository.GetByAgentId(id);
+
+            var jsonData = new
+            {
+                rows = (
+                    from comm in agentComms
+                    select new
+                    {
+                        i = comm.Id.ToString(),
+                        cell = new string[] {
+                           //itemCat.Id, 
+                           //itemCat.PacketId != null ? itemCat.PacketId.Id : null, 
+                           comm.GameId != null ? comm.GameId.GameName : null,
+                            comm.CommValue.HasValue ?  comm.CommValue.Value.ToString(Helper.CommonHelper.NumberFormat) : null
+                        }
+                    }).ToArray()
+            };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
     }
 }

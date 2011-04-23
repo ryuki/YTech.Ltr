@@ -14,6 +14,8 @@ namespace YTech.Ltr.Core.Master
         public virtual string AgentDesc { get; set; }
         public virtual string AgentStatus { get; set; }
 
+        public virtual IList<MAgentComm> AgentComms { get; protected set; }
+
         public virtual string DataStatus { get; set; }
         public virtual string CreatedBy { get; set; }
         public virtual DateTime? CreatedDate { get; set; }

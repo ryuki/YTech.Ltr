@@ -6,5 +6,6 @@ namespace YTech.Ltr.Core.RepositoryInterfaces
 {
    public interface IMAgentCommRepository : INHibernateRepositoryWithTypedId<MAgentComm, string>
     {
+        IList<MAgentComm> GetByAgentId(string agentId);
     }
 }

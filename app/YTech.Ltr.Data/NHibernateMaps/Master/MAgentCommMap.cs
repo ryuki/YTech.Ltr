@@ -17,7 +17,7 @@ namespace YTech.Ltr.Data.NHibernateMaps.Master
             mapping.Cache.ReadWrite();
             mapping.OptimisticLock.Dirty();
 
-            mapping.Table("dbo.M_AGENT_COMM");
+            mapping.Table("M_AGENT_COMM");
             mapping.Id(x => x.Id, "COMM_ID")
                  .GeneratedBy.Assigned();
 

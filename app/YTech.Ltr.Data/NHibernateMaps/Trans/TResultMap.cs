@@ -17,7 +17,7 @@ namespace YTech.Ltr.Data.NHibernateMaps.Trans
             mapping.Cache.ReadWrite();
             mapping.OptimisticLock.Dirty();
 
-            mapping.Table("dbo.T_RESULT");
+            mapping.Table("T_RESULT");
             mapping.Id(x => x.Id, "RESULT_ID")
                  .GeneratedBy.Assigned();
 

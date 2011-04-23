@@ -1,7 +1,7 @@
 ﻿using Castle.Windsor;
 using CommonServiceLocator.WindsorAdapter;
 using Microsoft.Practices.ServiceLocation;
-
+using NHibernate.Cfg;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
 using SharpArch.Web.Castle;
@@ -27,6 +27,9 @@ namespace YTech.Ltr.Web
         protected void Application_Start()
         {
             log4net.Config.XmlConfigurator.Configure();
+
+
+            AppDomain.CurrentDomain.SetData("SQLServerCompactEditionUnderWebHosting", true);
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());

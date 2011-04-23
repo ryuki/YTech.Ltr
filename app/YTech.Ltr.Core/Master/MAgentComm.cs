@@ -8,6 +8,17 @@ namespace YTech.Ltr.Core.Master
 {
     public class MAgentComm : EntityWithTypedId<string>, IHasAssignedId<string>
     {
+        public MAgentComm()
+        {
+        }
+
+        public MAgentComm(MAgent agent)
+        {
+            Check.Require(agent != null, "agent may not be null");
+
+            AgentId = agent;
+        }
+
         [DomainSignature]
         [NotNull, NotEmpty]
         public virtual MAgent AgentId { get; set; }

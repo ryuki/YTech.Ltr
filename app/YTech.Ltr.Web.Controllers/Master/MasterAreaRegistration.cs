@@ -14,7 +14,7 @@ namespace YTech.Ltr.Web.Controllers.Master
             context.MapRoute(
                     "Master_default",
                     "Master/{controller}/{action}/{id}",
-                    new { action = "Index", id = "" }
+                    new { action = "Index", id = UrlParameter.Optional }
                 );
         }
     }

@@ -9,7 +9,7 @@
         <div>
             <%=Html.ActionLinkForAreas<HomeController>(c => c.Index(), "Home") %></div>
     </div>
-    <% if (Request.IsAuthenticated)
+    <% //if (Request.IsAuthenticated)
        {
 %> 
     <h3>

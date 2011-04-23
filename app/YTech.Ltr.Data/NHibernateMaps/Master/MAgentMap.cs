@@ -17,7 +17,7 @@ namespace YTech.Ltr.Data.NHibernateMaps.Master
             mapping.Cache.ReadWrite();
             mapping.OptimisticLock.Dirty();
 
-            mapping.Table("dbo.M_AGENT");
+            mapping.Table("M_AGENT");
             mapping.Id(x => x.Id, "AGENT_ID")
                  .GeneratedBy.Assigned();
 
@@ -36,6 +36,13 @@ namespace YTech.Ltr.Data.NHibernateMaps.Master
                 .CustomSqlType("Timestamp")
                 .Not.Nullable()
                 .Generated.Always();
+
+            mapping.HasMany(x => x.AgentComms)
+                .AsBag()
+                .Inverse()
+                .KeyColumn("AGENT_ID")
+                .LazyLoad()
+                .Cascade.All(); 
         }
 
         #endregion

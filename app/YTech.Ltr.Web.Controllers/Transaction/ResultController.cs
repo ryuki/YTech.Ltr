@@ -63,10 +63,35 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             _tResultRepository.Save(result);
 
             //get prize for D2 and D3 games
+            char[] prizeD1 = viewModel.prizeD4_1.ToCharArray();
             string prizeD2 = viewModel.prizeD4_1.Substring(2, 2);
             string prizeD3 = viewModel.prizeD4_1.Substring(1, 3);
 
             //save details
+            //save D1 and wing
+            string strprizeD1 = string.Empty, formatWing = string.Empty;
+            for (int i = 0; i < prizeD1.Length; i++)
+            {
+                strprizeD1 = prizeD1[i].ToString();
+                SaveResultDet(result, EnumGame.D1, i + 1, strprizeD1);
+                switch (i)
+                {
+                    case 0:
+                        formatWing = "{0}xxx";
+                        break;
+                    case 1:
+                        formatWing = "x{0}xx";
+                        break;
+                    case 2:
+                        formatWing = "xx{0}x";
+                        break;
+                    case 3:
+                        formatWing = "xxx{0}";
+                        break;
+                }
+                SaveResultDet(result, EnumGame.WING, i + 1, string.Format(formatWing, strprizeD1));
+            }
+
             SaveResultDet(result, EnumGame.D2, 1, prizeD2);
             SaveResultDet(result, EnumGame.D3, 1, prizeD3);
             SaveResultDet(result, EnumGame.D4, 101, viewModel.prizeD4_1);

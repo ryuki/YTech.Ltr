@@ -12,6 +12,7 @@ using YTech.Ltr.Core.RepositoryInterfaces;
 using YTech.Ltr.Core.Trans;
 using YTech.Ltr.Data.Repository;
 using YTech.Ltr.Enums;
+using YTech.Ltr.Web.Controllers.Helper;
 using YTech.Ltr.Web.Controllers.ViewModel;
 using Microsoft.Reporting.WebForms;
 using YTech.Ltr.Web.Controllers.ViewModel.Report;
@@ -100,33 +101,94 @@ namespace YTech.Ltr.Web.Controllers.Transaction
         private void SaveSalesDets(TSales sales, FormCollection formCollection)
         {
             TSalesDet det = null;
-            string detNumber,gameId;
+            string detNumber, gameId;
             decimal detValue = 0;
+            IDictionary<string, MGame> dictGame = GetDictGame();
+            MGame game = null;
+            var agentComms = (from agentComm in sales.AgentId.AgentComms
+                              select agentComm).ToList();
+            decimal? comm = null;
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 40; i++)
             {
                 detNumber = formCollection[string.Format("txtSalesDetNumber_{0}", i)];
                 if (!string.IsNullOrEmpty(detNumber))
                 {
                     detValue = decimal.Parse(formCollection[string.Format("txtSalesDetValue_{0}", i)].Replace(",", ""));
                     gameId = formCollection[string.Format("gameId_{0}", i)];
-
-                    det = new TSalesDet(sales);
-                    det.SetAssignedIdTo(Guid.NewGuid().ToString());
-                    det.SalesDetNumber = detNumber;
-                    det.SalesDetValue = detValue;
-                    if (!string.IsNullOrEmpty(detNumber))
+                    if (!string.IsNullOrEmpty(gameId))
                     {
-                        det.GameId = _mGameRepository.Get(gameId);
+                        if (gameId.Equals("D4.BB"))
+                        {
+                            dictGame.TryGetValue("D4", out game);
+                        }
+                        else if (gameId.Equals("D3.BB"))
+                        {
+                            dictGame.TryGetValue("D3", out game);
+                        }
+                        else
+                        {
+                            dictGame.TryGetValue(gameId, out game);
+                        }
+                        if (agentComms.Count > 0)
+                        {
+                            comm = (from agentComm in agentComms
+                                where agentComm.GameId == game
+                                select agentComm.CommValue).First();
+                        }
+                        
                     }
-                    det.CreatedDate = DateTime.Now;
-                    det.CreatedBy = User.Identity.Name;
-                    det.DataStatus = EnumDataStatus.New.ToString();
-                    _tSalesDetRepository.Save(det);
+
+                    //recursive and calculate for BB
+                    if (gameId.Equals("D4.BB"))
+                    {
+                        SaveDetsForBB(sales, detNumber, detValue, game, comm, 4);
+                    }
+                    else if (gameId.Equals("D3.BB"))
+                    {
+                        SaveDetsForBB(sales, detNumber, detValue, game, comm, 3);
+                    }
+                    else
+                    {
+                        SaveSalesDet(sales, detNumber, detValue, game, comm, null);
+                    }
                 }
             }
+        }
 
+        private void SaveDetsForBB(TSales sales,string detNumber, decimal detValue, MGame gameId, decimal? comm, int leng)
+        {
+            var result = detNumber.AllPermutations().Where(x => x.Length == leng);
+            foreach (var res in result)
+            {
+                SaveSalesDet(sales, res, detValue, gameId, comm, string.Format("BB : {0}", detNumber));
+            }
+        }
 
+        private IDictionary<string, MGame> GetDictGame()
+        {
+            IDictionary<string, MGame> dictGame = new Dictionary<string, MGame>();
+            IList<MGame> listGame = _mGameRepository.GetAll();
+            foreach (MGame game in listGame)
+            {
+                dictGame.Add(new KeyValuePair<string, MGame>(game.Id, game));
+            }
+            return dictGame;
+        }
+
+        private void SaveSalesDet(TSales sales, string detNumber, decimal detValue, MGame gameId, decimal? comm, string desc)
+        {
+            TSalesDet det = new TSalesDet(sales);
+            det.SetAssignedIdTo(Guid.NewGuid().ToString());
+            det.SalesDetNumber = detNumber;
+            det.SalesDetValue = detValue;
+            det.GameId = gameId;
+            det.SalesDetComm = comm;
+            det.SalesDetDesc = desc;
+            det.CreatedDate = DateTime.Now;
+            det.CreatedBy = User.Identity.Name;
+            det.DataStatus = EnumDataStatus.New.ToString();
+            _tSalesDetRepository.Save(det);
         }
     }
 }
