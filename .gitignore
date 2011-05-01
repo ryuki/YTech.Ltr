@@ -28,4 +28,4 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
-/app/YTech.Ltr/YTech.Ltr.Web.Publish.xml
+*.Publish.xml
