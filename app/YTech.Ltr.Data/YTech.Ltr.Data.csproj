@@ -49,6 +49,9 @@
     <Reference Include="SharpArch, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\lib\SharpArch.dll</HintPath>
     </Reference>
+    <Reference Include="SharpArchContrib.Data">
+      <HintPath>..\..\lib\SharpArchContrib.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -66,9 +69,11 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Initializer.cs" />
     <Compile Include="NHibernateMaps\Master\MAgentMap.cs" />
     <Compile Include="NHibernateMaps\Master\MAgentCommMap.cs" />
     <Compile Include="NHibernateMaps\Master\MGameMap.cs" />
+    <Compile Include="NHibernateMaps\Trans\TMsgMap.cs" />
     <Compile Include="NHibernateMaps\Trans\TResultMap.cs" />
     <Compile Include="NHibernateMaps\Trans\TResultDetMap.cs" />
     <Compile Include="NHibernateMaps\Trans\TSalesMap.cs" />
@@ -77,6 +82,7 @@
     <Compile Include="Repository\MAgentCommRepository.cs" />
     <Compile Include="Repository\MAgentRepository.cs" />
     <Compile Include="Repository\MGameRepository.cs" />
+    <Compile Include="Repository\TMsgRepository.cs" />
     <Compile Include="Repository\TResultDetRepository.cs" />
     <Compile Include="Repository\TResultRepository.cs" />
     <Compile Include="Repository\TSalesDetRepository.cs" />

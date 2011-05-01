@@ -120,7 +120,8 @@ namespace YTech.Ltr.Web.Controllers.Transaction
                        {
                            AgentId = det.SalesId.AgentId != null ? det.SalesId.AgentId.Id : null,
                            AgentName = det.SalesId.AgentId != null ? det.SalesId.AgentId.AgentName : null,
-                           det.GameId.GameName,
+                           GameId = det.GameId != null ? det.GameId.Id : null,
+                           GameName = det.GameId != null ? det.GameId.GameName : null,
                            det.SalesDetComm,
                            det.SalesDetDesc,
                            det.SalesDetMustPaid,
@@ -129,7 +130,9 @@ namespace YTech.Ltr.Web.Controllers.Transaction
                            det.SalesDetStatus,
                            det.SalesDetTotal,
                            det.SalesDetValue,
-                           det.SalesId.SalesDate
+                           det.SalesId.SalesDate,
+                           SalesId = det.SalesId.Id,
+                           det.SalesId.SalesNo
                        }
             ;
 

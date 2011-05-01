@@ -84,7 +84,6 @@
   <ItemGroup>
     <Compile Include="ControllerEnums.cs" />
     <Compile Include="Helper\CommonHelper.cs" />
-    <Compile Include="Helper\Extensions.cs" />
     <Compile Include="HomeController.cs" />
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

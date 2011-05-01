@@ -11,5 +11,6 @@ namespace YTech.Ltr.Web.Controllers.ViewModel.Report
        public string AgentName { get; set; }
        public DateTime? SalesDate { get; set; }
        public string GameName { get; set; }
+       public string SalesNo { get; set; }
     }
 }

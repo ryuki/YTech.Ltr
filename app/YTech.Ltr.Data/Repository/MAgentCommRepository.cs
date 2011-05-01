@@ -23,5 +23,16 @@ namespace YTech.Ltr.Data.Repository
             q.SetString("agentId", agentId);
             return q.List<MAgentComm>();
         }
+
+        public void DeleteByAgent(string agentId)
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.AppendLine(@"   
+                delete MAgentComm comm
+                where comm.AgentId.Id = :agentId ");
+            IQuery q = Session.CreateQuery(sql.ToString());
+            q.SetString("agentId", agentId);
+            q.ExecuteUpdate();
+        }
     }
 }

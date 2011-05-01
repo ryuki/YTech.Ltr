@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using YTech.Ltr.Core.Master;
 
-namespace YTech.Ltr.Web.Controllers.Helper
+namespace YTech.Ltr.ApplicationServices.Helper
 {
     public static class Extensions
     {

@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using SharpArch.Core;
 using SharpArch.Web.NHibernate;
+using YTech.Ltr.ApplicationServices;
+using YTech.Ltr.ApplicationServices.Helper;
 using YTech.Ltr.Core.Master;
 using YTech.Ltr.Core.RepositoryInterfaces;
 using YTech.Ltr.Core.Trans;
@@ -60,6 +62,7 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             sales = new TSales();
             sales.SetAssignedIdTo(Guid.NewGuid().ToString());
             sales.SalesDate = viewModel.SalesDate;
+            sales.SalesNo = viewModel.SalesNo;
             if (!string.IsNullOrEmpty(viewModel.AgentId))
             {
                 sales.AgentId = _mAgentRepository.Get(viewModel.AgentId);

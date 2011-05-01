@@ -6,5 +6,6 @@ namespace YTech.Ltr.Core.RepositoryInterfaces
 {
     public interface IMGameRepository : INHibernateRepositoryWithTypedId<MGame, string>
     {
+        decimal? GetCommissionByGameAndAgent(string agentId, string gameId);
     }
 }

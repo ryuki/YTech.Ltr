@@ -48,6 +48,14 @@
                     <%=Html.TextBox("SalesDate", Model.SalesDate != null ? Model.SalesDate.Value.ToString(CommonHelper.DateFormat) : "", new { style = "width:120px;" })%>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    No :
+                </td>
+                <td>
+                    <%=Html.TextBox("SalesNo", Model.SalesNo, new { style = "width:120px;" })%>
+                </td>
+            </tr>
         </table>
     </div>
     <hr />

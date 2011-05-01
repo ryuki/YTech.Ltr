@@ -92,6 +92,10 @@
           <DataField>SalesId</DataField>
           <rd:TypeName>YTech.Ltr.Core.Trans.TSales</rd:TypeName>
         </Field>
+        <Field Name="SalesNo">
+          <DataField>SalesNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <Query>
         <DataSourceName>YTechLtrWebControllersViewModelReport</DataSourceName>
@@ -115,7 +119,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>1.49378in</Height>
+              <Height>1.86878in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1150,7 +1154,7 @@
                             </TablixMembers>
                           </TablixRowHierarchy>
                           <DataSetName>SalesDetViewModel</DataSetName>
-                          <Top>0.74378in</Top>
+                          <Top>0.99378in</Top>
                           <Height>0.75in</Height>
                           <Width>9.31584in</Width>
                           <Style>
@@ -1294,6 +1298,72 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <Textbox Name="AgentName2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!SalesNo.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Verdana</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>AgentName</rd:DefaultName>
+                          <Top>0.67434in</Top>
+                          <Left>0.85358in</Left>
+                          <Height>0.25in</Height>
+                          <Width>2in</Width>
+                          <ZIndex>5</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <Textbox Name="SalesDate4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>No :</Value>
+                                  <Style>
+                                    <FontFamily>Verdana</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>SalesDate</rd:DefaultName>
+                          <Top>0.67434in</Top>
+                          <Height>0.25in</Height>
+                          <Width>0.85358in</Width>
+                          <ZIndex>6</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
                       </ReportItems>
                       <KeepTogether>true</KeepTogether>
                       <Style>
@@ -1326,7 +1396,7 @@
         </TablixRowHierarchy>
         <DataSetName>SalesDetViewModel</DataSetName>
         <Top>0.5in</Top>
-        <Height>1.49378in</Height>
+        <Height>1.86878in</Height>
         <Width>9.31584in</Width>
         <Style>
           <Border>
@@ -1342,7 +1412,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Detail Hasil Penjualan</Value>
-                <Style />
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style>
@@ -1367,7 +1439,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>2.14151in</Height>
+    <Height>2.36878in</Height>
     <Style />
   </Body>
   <Width>9.31584in</Width>

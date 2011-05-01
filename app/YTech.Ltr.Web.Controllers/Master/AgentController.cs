@@ -153,8 +153,65 @@ namespace YTech.Ltr.Web.Controllers.Master
         [Transaction]
         public ActionResult Commission(string agentId)
         {
-            AgentCommViewModel viewModel = AgentCommViewModel.Create(_mGameRepository);
+            AgentCommViewModel viewModel = AgentCommViewModel.Create(_mGameRepository, agentId);
             return View(viewModel);
+        }
+
+        [ValidateAntiForgeryToken]      // Helps avoid CSRF attacks
+        [Transaction]                   // Wraps a transaction around the action
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Commission(AgentCommViewModel viewModel, FormCollection formCollection, string agentId)
+        {
+            _mAgentCommRepository.DbContext.BeginTransaction();
+            //delete agent commission first
+            _mAgentCommRepository.DeleteByAgent(agentId);
+            IList<MGame> listGame = _mGameRepository.GetAll();
+            MGame game = null;
+            MAgentComm comm = null;
+            MAgent agent = _mAgentRepository.Get(agentId);
+            string gameComm;
+            for (int i = 0; i < listGame.Count; i++)
+            {
+                game = listGame[i];
+                comm = new MAgentComm(agent);
+                comm.SetAssignedIdTo(Guid.NewGuid().ToString());
+
+                gameComm = formCollection[string.Format("txtComm_{0}", game.Id)];
+                //set comm value if comm value is not empty
+                if (!string.IsNullOrEmpty(gameComm))
+                {
+                    comm.CommValue = decimal.Parse(gameComm);
+                }
+                comm.GameId = game;
+                comm.DataStatus = EnumDataStatus.New.ToString();
+                comm.CreatedBy = User.Identity.Name;
+                comm.CreatedDate = DateTime.Now;
+                _mAgentCommRepository.Save(comm);
+            }
+
+            bool Success = true;
+            string Message = string.Empty;
+            try
+            {
+                _mAgentCommRepository.DbContext.CommitTransaction();
+                TempData[EnumCommonViewData.SaveState.ToString()] = EnumSaveState.Success;
+                Success = true;
+                Message = "Komisi Agen berhasil disimpan.";
+            }
+            catch (Exception ex)
+            {
+                _mAgentCommRepository.DbContext.RollbackTransaction();
+                TempData[EnumCommonViewData.SaveState.ToString()] = EnumSaveState.Failed;
+                Success = false;
+                Message = ex.GetBaseException().Message;
+            }
+
+            var e = new
+            {
+                Success,
+                Message
+            };
+            return Json(e, JsonRequestBehavior.AllowGet);
         }
 
         [Transaction]

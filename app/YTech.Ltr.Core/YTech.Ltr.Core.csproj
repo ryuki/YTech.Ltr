@@ -68,10 +68,12 @@
     <Compile Include="RepositoryInterfaces\IMAgentCommRepository.cs" />
     <Compile Include="RepositoryInterfaces\IMAgentRepository.cs" />
     <Compile Include="RepositoryInterfaces\IMGameRepository.cs" />
+    <Compile Include="RepositoryInterfaces\ITMsgRepository.cs" />
     <Compile Include="RepositoryInterfaces\ITResultDetRepository.cs" />
     <Compile Include="RepositoryInterfaces\ITResultRepository.cs" />
     <Compile Include="RepositoryInterfaces\ITSalesDetRepository.cs" />
     <Compile Include="RepositoryInterfaces\ITSalesRepository.cs" />
+    <Compile Include="Trans\TMsg.cs" />
     <Compile Include="Trans\TResult.cs" />
     <Compile Include="Trans\TResultDet.cs" />
     <Compile Include="Trans\TSales.cs" />

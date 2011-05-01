@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +12,34 @@ namespace YTech.Ltr.Web.Controllers.ViewModel
 {
     public class AgentCommViewModel
     {
-        public static AgentCommViewModel Create(IMGameRepository mGameRepository)
+        public static AgentCommViewModel Create(IMGameRepository mGameRepository, string agentId)
         {
             AgentCommViewModel viewModel = new AgentCommViewModel();
 
-            viewModel.ListGames = mGameRepository.GetAll();
+            IList<MGame> listGame = mGameRepository.GetAll();
+            CommissionViewModel comm = null;
+            IList<CommissionViewModel> list = new List<CommissionViewModel>();
+            MGame game = null;
+            for (int i = 0; i < listGame.Count; i++)
+            {
+                comm = new CommissionViewModel();
+                game = listGame[i];
+                comm.GameId = game.Id;
+                comm.GameName = game.GameName;
+                comm.Commission = mGameRepository.GetCommissionByGameAndAgent(agentId, game.Id);
+                list.Add(comm);
+            }
+            viewModel.ListComms = list;
             return viewModel;
         }
 
-        public IList<MGame> ListGames { get; set; }
+        public IList<CommissionViewModel> ListComms { get; set; }
+    }
+
+    public class CommissionViewModel
+    {
+        public string GameName { get; set; }
+        public string GameId { get; set; }
+        public decimal? Commission { get; set; }
     }
 }

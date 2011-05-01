@@ -26,6 +26,7 @@ namespace YTech.Ltr.Web.Controllers.ViewModel
             return viewModel;
         }
 
+        public string SalesNo { get; set; }
         public string SalesId { get; set; }
         public DateTime? SalesDate { get; set; }
         public SelectList AgentList { get; set; }
