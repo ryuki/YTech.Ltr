@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTech.Ltr.Sms.WinForms", "a
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTech.Ltr.Console", "app\YTech.Ltr.Console\YTech.Ltr.Console.csproj", "{1EFB379B-76AF-43E3-A8E8-BB9821862DE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTech.Ltr.SmsLib.WinForms", "app\YTech.Ltr.SmsLib.WinForms\YTech.Ltr.SmsLib.WinForms.csproj", "{AB3B0113-66D6-472F-BF65-FF319742D4AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,16 @@ Global
 		{1EFB379B-76AF-43E3-A8E8-BB9821862DE9}.Release|Mixed Platforms.Build.0 = Release|x86
 		{1EFB379B-76AF-43E3-A8E8-BB9821862DE9}.Release|x86.ActiveCfg = Release|x86
 		{1EFB379B-76AF-43E3-A8E8-BB9821862DE9}.Release|x86.Build.0 = Release|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Debug|x86.ActiveCfg = Debug|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Debug|x86.Build.0 = Debug|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Release|Any CPU.ActiveCfg = Release|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Release|Mixed Platforms.Build.0 = Release|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Release|x86.ActiveCfg = Release|x86
+		{AB3B0113-66D6-472F-BF65-FF319742D4AB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

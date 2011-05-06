@@ -31,6 +31,7 @@ namespace YTech.Ltr.Core.Trans
         public virtual decimal? SalesMustPaid { get; set; }
         public virtual string SalesStatus { get; set; }
         public virtual string SalesDesc { get; set; }
+        public virtual TMsg MsgId { get; set; }
 
         public virtual IList<TSalesDet> SalesDets { get; protected set; }
 

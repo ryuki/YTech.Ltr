@@ -28,6 +28,9 @@ namespace YTech.Ltr.Data.NHibernateMaps.Trans
             mapping.Map(x => x.SalesMustPaid, "SALES_MUST_PAID");
             mapping.Map(x => x.SalesStatus, "SALES_STATUS");
             mapping.Map(x => x.SalesDesc, "SALES_DESC");
+            mapping.References(x => x.MsgId, "MSG_ID")
+                .LazyLoad()
+                .Cascade.All();
 
             mapping.Map(x => x.DataStatus, "DATA_STATUS");
             mapping.Map(x => x.CreatedBy, "CREATED_BY");

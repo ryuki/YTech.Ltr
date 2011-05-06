@@ -56,9 +56,9 @@ namespace YTech.Ltr.Sms.WinForms
 
         private void InsertToDb()
         {
-            timer1.Stop();
-            GetSmsRead();
-            timer1.Start();
+            //timer1.Stop();
+            //GetSmsRead();
+            //timer1.Start();
         }
 
         private void GetSmsRead()
@@ -191,14 +191,12 @@ namespace YTech.Ltr.Sms.WinForms
             while (retry);
         }
 
-
         private delegate void ConnectedHandler(bool connected);
 
         private void OnPhoneConnectionChange(bool connected)
         {
             lbl_phone_status.Text = "CONNECTED";
         }
-
 
         private void comm_MessageReceived(object sender, GsmComm.GsmCommunication.MessageReceivedEventArgs e)
         {
@@ -210,7 +208,6 @@ namespace YTech.Ltr.Sms.WinForms
             this.Invoke(new ConnectedHandler(OnPhoneConnectionChange), new object[] { true });
         }
 
-
         private string GetMessageStorage()
         {
             string storage = string.Empty;
@@ -221,8 +218,7 @@ namespace YTech.Ltr.Sms.WinForms
             else
                 return storage;
         }
-
-
+        
         private void MessageReceived()
         {
             Cursor.Current = Cursors.WaitCursor;
@@ -235,13 +231,16 @@ namespace YTech.Ltr.Sms.WinForms
                     StatusToString(message.Status), message.Storage, message.Index));
                 ShowMessage(message.Data);
                 Output("");
+
+                System.Threading.Thread.Sleep(1000);
+                //save message
+                SaveMessage(message.Data);
             }
 
             Output(string.Format("{0,9} messages read.", messages.Length.ToString()));
             Output("");
         }
-
-
+        
         private string StatusToString(PhoneMessageStatus status)
         {
             // Map a message status to a string
@@ -270,7 +269,6 @@ namespace YTech.Ltr.Sms.WinForms
             return ret;
         }
 
-
         private void Output(string text)
         {
             if (this.txtOutput.InvokeRequired)
@@ -284,7 +282,6 @@ namespace YTech.Ltr.Sms.WinForms
                 txtOutput.AppendText("\r\n");
             }
         }
-
 
         private void ShowMessage(SmsPdu pdu)
         {
@@ -356,8 +353,8 @@ namespace YTech.Ltr.Sms.WinForms
                 _tMsgRepository.Save(msg);
 
                 //split string
-                SaveToTrans(data.UserDataText);
-
+                SaveTransHelper hlp = new SaveTransHelper(_tSalesRepository, _tSalesDetRepository, _mGameRepository, _mAgentRepository, _tMsgRepository);
+                hlp.SaveToTrans(data.UserDataText);
                 _tMsgRepository.DbContext.CommitTransaction();
                 pesan = "\nBerhasil.";
             }
@@ -385,168 +382,6 @@ namespace YTech.Ltr.Sms.WinForms
             System.Threading.Thread.Sleep(2000);
             SmsSubmitPdu pdu = new SmsSubmitPdu(msg, no, "");
             CommSetting.comm.SendMessage(pdu);
-        }
-
-        private IDictionary<string, MGame> GetDictGame()
-        {
-            IDictionary<string, MGame> dictGame = new Dictionary<string, MGame>();
-            IList<MGame> listGame = _mGameRepository.GetAll();
-            foreach (MGame game in listGame)
-            {
-                dictGame.Add(new KeyValuePair<string, MGame>(game.Id, game));
-            }
-            return dictGame;
-        }
-
-        private void SaveToTrans(string msg)
-        {
-            //many line breaks, every handphone have different string
-            string[] separator = new string[] { "\n", "\r", "\r\n", "\n\r" };
-            string[] lines = msg.ToUpper().Split(separator, StringSplitOptions.RemoveEmptyEntries);// Regex.Split(msg.ToUpper(), "\n");
-            string agentId = string.Empty;
-            string salesNo = string.Empty;
-
-            IList<DetailMessage> listDet = new List<DetailMessage>();
-            DetailMessage detMsg = null;
-            foreach (string line in lines)
-            {
-                if (line.Contains("A="))
-                {
-                    agentId = line.Replace("A=", "");
-                }
-                else if (line.Contains("KE="))
-                {
-                    salesNo = line.Replace("KE=", "");
-                }
-                else
-                {
-                    //search game and value
-                    //det[0] = number list
-                    //det[1] = value and game (for BB)
-                    string[] dets = Regex.Split(line, "=");
-                    string det = dets[0];
-                    //check if games is BB
-                    if (dets[1].Contains("BB"))
-                    {
-                        decimal? value = decimal.Parse(dets[1].Replace("BB", ""));
-                        string[] sep = new string[] { "." };
-                        string[] numbers = det.Split(sep, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string num in numbers)
-                        {
-                            detMsg = new DetailMessage();
-                            detMsg.GameId = string.Format("D{0}", num.Length);
-                            detMsg.SalesNumber = num;
-                            detMsg.SalesValue = value;
-                            detMsg.IsBB = true;
-                            listDet.Add(detMsg);
-                        }
-                    }
-                    //if not, just do it
-                    else
-                    {
-                        decimal? value = decimal.Parse(dets[1]);
-                        //cannot use regex .(dot), it use for other functionality
-                        // string[] numbers = Regex.Split(det, ".");
-
-                        string[] sep = new string[] { "." };
-                        string[] numbers = det.Split(sep, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string num in numbers)
-                        {
-                            detMsg = new DetailMessage();
-                            //check if numbers contain x string 
-                            //(this for game WING)
-                            if (num.Contains("X"))
-                            {
-                                detMsg.GameId = EnumGame.WING.ToString();
-                            }
-                            //if not, use regular games
-                            else
-                            {
-                                detMsg.GameId = string.Format("D{0}", num.Length);
-                            }
-                            detMsg.SalesNumber = num;
-                            detMsg.SalesValue = value;
-                            listDet.Add(detMsg);
-                        }
-                    }
-
-                }
-            }
-            //save trans and details
-            TSales sales = SaveTrans(agentId, salesNo);
-            SaveSalesDets(sales, listDet);
-        }
-
-        private TSales SaveTrans(string agentId, string salesNo)
-        {
-            TSales sales = new TSales();
-            sales.SetAssignedIdTo(Guid.NewGuid().ToString());
-            sales.SalesDate = DateTime.Today;
-            sales.SalesNo = salesNo;
-            if (!string.IsNullOrEmpty(agentId))
-            {
-                sales.AgentId = _mAgentRepository.Get(agentId);
-            }
-
-            sales.CreatedDate = DateTime.Now;
-            sales.CreatedBy = Environment.UserName;
-            sales.DataStatus = EnumDataStatus.New.ToString();
-            sales.SalesDets.Clear();
-            _tSalesRepository.Save(sales);
-            return sales;
-        }
-
-        private void SaveDetsForBB(TSales sales, string detNumber, decimal? detValue, MGame gameId, decimal? comm, int leng)
-        {
-            var result = detNumber.AllPermutations().Where(x => x.Length == leng);
-            foreach (var res in result)
-            {
-                SaveSalesDet(sales, res, detValue, gameId, comm, string.Format("BB : {0}", detNumber));
-            }
-        }
-
-        private void SaveSalesDets(TSales sales, IList<DetailMessage> listDet)
-        {
-            var agentComms = (from agentComm in sales.AgentId.AgentComms
-                              select agentComm).ToList();
-            decimal? comm = null;
-
-            IDictionary<string, MGame> dictGame = GetDictGame();
-            MGame game = null;
-            foreach (DetailMessage detailMessage in listDet)
-            {
-                dictGame.TryGetValue(detailMessage.GameId, out game);
-                if (agentComms.Count > 0)
-                {
-                    comm = (from agentComm in agentComms
-                            where agentComm.GameId == game
-                            select agentComm.CommValue).First();
-                }
-                if (detailMessage.IsBB)
-                {
-                    SaveDetsForBB(sales, detailMessage.SalesNumber, detailMessage.SalesValue, game, comm, detailMessage.SalesNumber.Length);
-                }
-                else
-                {
-                    SaveSalesDet(sales, detailMessage.SalesNumber, detailMessage.SalesValue, game, comm, null);
-                }
-
-            }
-        }
-
-        private void SaveSalesDet(TSales sales, string detNumber, decimal? detValue, MGame gameId, decimal? comm, string desc)
-        {
-            TSalesDet det = new TSalesDet(sales);
-            det.SetAssignedIdTo(Guid.NewGuid().ToString());
-            det.SalesDetNumber = detNumber;
-            det.SalesDetValue = detValue;
-            det.GameId = gameId;
-            det.SalesDetComm = comm;
-            det.SalesDetDesc = desc;
-            det.CreatedDate = DateTime.Now;
-            det.CreatedBy = Environment.UserName;
-            det.DataStatus = EnumDataStatus.New.ToString();
-            _tSalesDetRepository.Save(det);
         }
     }
 

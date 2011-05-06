@@ -82,13 +82,16 @@ namespace YTech.Ltr.Console
         {
             var productRepository = container.Resolve<IMGameRepository>();
             var productCount = productRepository.GetAll();
-
+            
             foreach (MGame mGame in productCount)
             {
                 System.Console.WriteLine("Complete, # of products: " + mGame.Id + " name " + mGame.GameName);
             }
 
             System.Console.WriteLine("Complete, # of products: " + productCount.Count);
+
+            var tMsgRepository = container.Resolve<ITMsgRepository>();
+            System.Console.WriteLine("Complete, # of products: " + tMsgRepository.GetMsgLikes(DateTime.Today, "sdfsdf"));
         }
     }
 
