@@ -11,5 +11,6 @@ namespace YTech.Ltr.SmsLib.WinForms
         public string SalesNumber { get; set; }
         public decimal? SalesValue { get; set; }
         public bool IsBB { get; set; }
+        public string SalesDesc { get; set; }
     }
 }

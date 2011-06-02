@@ -94,6 +94,7 @@ namespace YTech.Ltr.Web.Controllers.Transaction
 
             SaveResultDet(result, EnumGame.D2, 1, prizeD2);
             SaveResultDet(result, EnumGame.D3, 1, prizeD3);
+            SaveResultDet(result, EnumGame.D4TH, 1, viewModel.prizeD4_1);
             SaveResultDet(result, EnumGame.D4, 101, viewModel.prizeD4_1);
             SaveResultDet(result, EnumGame.D4, 201, viewModel.prizeD4_2);
             SaveResultDet(result, EnumGame.D4, 301, viewModel.prizeD4_3);

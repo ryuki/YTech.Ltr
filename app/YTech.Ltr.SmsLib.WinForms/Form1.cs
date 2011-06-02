@@ -179,7 +179,7 @@ namespace YTech.Ltr.SmsLib.WinForms
 
                 //split string
                 SaveTransHelper hlp = new SaveTransHelper(_tSalesRepository, _tSalesDetRepository, _mGameRepository, _mAgentRepository, _tMsgRepository);
-                hlp.SaveToTrans(msg, m.getText());
+                hlp.SaveToTrans(msg, m.getText(),dtSalesDate.Value);
 
                 _tMsgRepository.DbContext.CommitTransaction();
                 isSuccess = true;

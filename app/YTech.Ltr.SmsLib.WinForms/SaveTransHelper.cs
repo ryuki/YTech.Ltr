@@ -38,7 +38,7 @@ namespace YTech.Ltr.SmsLib.WinForms
             return dictGame;
         }
 
-        public void SaveToTrans(TMsg m,string msg)
+        public void SaveToTrans(TMsg m, string msg, DateTime salesDate)
         {
             //many line breaks, every handphone have different string
             string[] separator = new string[] { "\n", "\r", "\r\n", "\n\r" };
@@ -84,7 +84,26 @@ namespace YTech.Ltr.SmsLib.WinForms
                     //if not, just do it
                     else
                     {
-                        decimal? value = decimal.Parse(dets[1]);
+                        decimal? value;
+                        try
+                        {
+                            if (dets[1].ToUpper().Contains("HBR"))
+                            {
+                                value = decimal.Parse(dets[1].Trim().ToUpper().Replace("HBR", "")) * 2;
+                            }
+                            else if (dets[1].ToUpper().Contains("TH"))
+                            {
+                                value = decimal.Parse(dets[1].Trim().ToUpper().Replace("TH", ""));
+                            }
+                            else
+                            {
+                                value = decimal.Parse(dets[1]);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            throw new Exception("Format nilai salah, harus mengandung kata angka + HBR atau angka + TH atau angka saja.");
+                        }
                         //cannot use regex .(dot), it use for other functionality
                         // string[] numbers = Regex.Split(det, ".");
 
@@ -98,11 +117,19 @@ namespace YTech.Ltr.SmsLib.WinForms
                             if (num.Contains("X"))
                             {
                                 detMsg.GameId = EnumGame.WING.ToString();
+                            } 
+                            else if (dets[1].ToUpper().Contains("TH"))
+                            {
+                                detMsg.GameId = EnumGame.D4TH.ToString();
                             }
                             //if not, use regular games
                             else
                             {
-                                detMsg.GameId = string.Format("D{0}", num.Trim().Length);
+                                detMsg.GameId = string.Format("D{0}", num.Trim().Length); 
+                                if (dets[1].ToUpper().Contains("HBR"))
+                                {
+                                    detMsg.SalesDesc = string.Format("HBR : {0}",num.Trim());
+                                }
                             }
                             detMsg.SalesNumber = num.Trim();
                             detMsg.SalesValue = value;
@@ -113,15 +140,15 @@ namespace YTech.Ltr.SmsLib.WinForms
                 }
             }
             //save trans and details
-            TSales sales = SaveTrans(m,agentId, salesNo);
+            TSales sales = SaveTrans(m, agentId, salesNo, salesDate);
             SaveSalesDets(sales, listDet);
         }
 
-        private TSales SaveTrans(TMsg m,string agentId, string salesNo)
+        private TSales SaveTrans(TMsg m, string agentId, string salesNo, DateTime salesDate)
         {
             TSales sales = new TSales();
             sales.SetAssignedIdTo(Guid.NewGuid().ToString());
-            sales.SalesDate = DateTime.Today;
+            sales.SalesDate = salesDate;
             sales.SalesNo = salesNo;
             if (!string.IsNullOrEmpty(agentId))
             {
@@ -178,7 +205,7 @@ namespace YTech.Ltr.SmsLib.WinForms
                 }
                 else
                 {
-                    SaveSalesDet(sales, detailMessage.SalesNumber, detailMessage.SalesValue, game, comm, null);
+                    SaveSalesDet(sales, detailMessage.SalesNumber, detailMessage.SalesValue, game, comm, detailMessage.SalesDesc);
                 }
 
             }

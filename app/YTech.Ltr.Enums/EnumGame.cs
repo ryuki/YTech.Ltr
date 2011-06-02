@@ -6,6 +6,7 @@ namespace YTech.Ltr.Enums
         WING,
         D2,
         D3,
-        D4
+        D4, 
+        D4TH
     }
 }

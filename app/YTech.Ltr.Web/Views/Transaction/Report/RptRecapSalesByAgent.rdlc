@@ -335,7 +335,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!SalesDetValue.Value</Value>
+                                                <Value>=Sum(Fields!SalesDetValue.Value)</Value>
                                                 <Style>
                                                   <FontFamily>Verdana</FontFamily>
                                                   <FontSize>9pt</FontSize>
@@ -397,7 +397,6 @@
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
-                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                 </TablixCells>
@@ -955,7 +954,11 @@
                                     </TablixHeader>
                                     <TablixMembers>
                                       <TablixMember>
-                                        <Group Name="Details" />
+                                        <Group Name="Details">
+                                          <GroupExpressions>
+                                            <GroupExpression>=Fields!SalesDetNumber.Value</GroupExpression>
+                                          </GroupExpressions>
+                                        </Group>
                                         <SortExpressions>
                                           <SortExpression>
                                             <Value>=Fields!SalesDate.Value</Value>

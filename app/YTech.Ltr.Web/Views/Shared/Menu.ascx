@@ -60,8 +60,6 @@
     <div>
 </div>
         <div>
-            Ganti Password</div>
-        <div>
             Backup Database</div>
     </div>
     <%

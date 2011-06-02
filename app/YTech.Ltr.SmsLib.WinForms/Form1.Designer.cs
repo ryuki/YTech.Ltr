@@ -41,21 +41,23 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.gbConnect = new System.Windows.Forms.GroupBox();
-            this.gbStatus = new System.Windows.Forms.GroupBox();
             this.btnRefreshPort = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.gbStatus = new System.Windows.Forms.GroupBox();
             this.btnStop = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.dtSalesDate = new System.Windows.Forms.DateTimePicker();
             this.gbConnect.SuspendLayout();
             this.gbStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtOutput
             // 
-            this.txtOutput.Location = new System.Drawing.Point(31, 52);
+            this.txtOutput.Location = new System.Drawing.Point(6, 52);
             this.txtOutput.Multiline = true;
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtOutput.Size = new System.Drawing.Size(370, 200);
+            this.txtOutput.Size = new System.Drawing.Size(459, 235);
             this.txtOutput.TabIndex = 0;
             this.txtOutput.WordWrap = false;
             // 
@@ -120,7 +122,7 @@
             // btnTest
             // 
             this.btnTest.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnTest.Location = new System.Drawing.Point(41, 107);
+            this.btnTest.Location = new System.Drawing.Point(40, 131);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(75, 23);
             this.btnTest.TabIndex = 21;
@@ -132,7 +134,7 @@
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnOK.Location = new System.Drawing.Point(129, 107);
+            this.btnOK.Location = new System.Drawing.Point(128, 131);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 22;
@@ -152,6 +154,8 @@
             // 
             // gbConnect
             // 
+            this.gbConnect.Controls.Add(this.dtSalesDate);
+            this.gbConnect.Controls.Add(this.label1);
             this.gbConnect.Controls.Add(this.btnRefreshPort);
             this.gbConnect.Controls.Add(this.lblPort);
             this.gbConnect.Controls.Add(this.cboBaudRate);
@@ -161,25 +165,12 @@
             this.gbConnect.Controls.Add(this.cboTimeout);
             this.gbConnect.Controls.Add(this.lblTimeout);
             this.gbConnect.Controls.Add(this.lblBaudRate);
-            this.gbConnect.Location = new System.Drawing.Point(37, 12);
+            this.gbConnect.Location = new System.Drawing.Point(12, 12);
             this.gbConnect.Name = "gbConnect";
-            this.gbConnect.Size = new System.Drawing.Size(424, 138);
+            this.gbConnect.Size = new System.Drawing.Size(471, 160);
             this.gbConnect.TabIndex = 24;
             this.gbConnect.TabStop = false;
             this.gbConnect.Text = "Koneksi Modem";
-            // 
-            // gbStatus
-            // 
-            this.gbStatus.Controls.Add(this.btnStop);
-            this.gbStatus.Controls.Add(this.btnDisconnect);
-            this.gbStatus.Controls.Add(this.btnRead);
-            this.gbStatus.Controls.Add(this.txtOutput);
-            this.gbStatus.Location = new System.Drawing.Point(37, 154);
-            this.gbStatus.Name = "gbStatus";
-            this.gbStatus.Size = new System.Drawing.Size(424, 293);
-            this.gbStatus.TabIndex = 25;
-            this.gbStatus.TabStop = false;
-            this.gbStatus.Text = "SMS";
             // 
             // btnRefreshPort
             // 
@@ -191,10 +182,18 @@
             this.btnRefreshPort.UseVisualStyleBackColor = true;
             this.btnRefreshPort.Click += new System.EventHandler(this.btnRefreshPort_Click);
             // 
-            // timer1
+            // gbStatus
             // 
-            this.timer1.Interval = 5000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.gbStatus.Controls.Add(this.btnStop);
+            this.gbStatus.Controls.Add(this.btnDisconnect);
+            this.gbStatus.Controls.Add(this.btnRead);
+            this.gbStatus.Controls.Add(this.txtOutput);
+            this.gbStatus.Location = new System.Drawing.Point(12, 178);
+            this.gbStatus.Name = "gbStatus";
+            this.gbStatus.Size = new System.Drawing.Size(471, 293);
+            this.gbStatus.TabIndex = 25;
+            this.gbStatus.TabStop = false;
+            this.gbStatus.Text = "SMS";
             // 
             // btnStop
             // 
@@ -207,11 +206,34 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 5000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(16, 88);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Tanggal :";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // dtSalesDate
+            // 
+            this.dtSalesDate.CustomFormat = "dd-MMM-yyyy";
+            this.dtSalesDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtSalesDate.Location = new System.Drawing.Point(128, 91);
+            this.dtSalesDate.Name = "dtSalesDate";
+            this.dtSalesDate.Size = new System.Drawing.Size(104, 20);
+            this.dtSalesDate.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 459);
+            this.ClientSize = new System.Drawing.Size(495, 483);
             this.Controls.Add(this.gbStatus);
             this.Controls.Add(this.gbConnect);
             this.Name = "Form1";
@@ -241,6 +263,8 @@
         private System.Windows.Forms.Button btnRefreshPort;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.DateTimePicker dtSalesDate;
+        private System.Windows.Forms.Label label1;
     }
 }
 
