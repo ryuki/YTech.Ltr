@@ -88,7 +88,7 @@
             $.jgrid.nav.deltext = "Hapus";
             $.jgrid.edit.addCaption = "Tambah Agen Baru";
             $.jgrid.edit.editCaption = "Edit Agen";
-            $.jgrid.del.caption = "Hapus Kategori Produk";
+            $.jgrid.del.caption = "Hapus Agen";
             $.jgrid.del.msg = "Anda yakin menghapus Agen yang dipilih?";
             $("#list").jqGrid({
                 url: '<%= Url.Action("List", "Agent") %>',

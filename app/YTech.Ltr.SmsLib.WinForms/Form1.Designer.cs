@@ -41,14 +41,20 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.gbConnect = new System.Windows.Forms.GroupBox();
+            this.dtSalesDate = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnRefreshPort = new System.Windows.Forms.Button();
             this.gbStatus = new System.Windows.Forms.GroupBox();
             this.btnStop = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.dtSalesDate = new System.Windows.Forms.DateTimePicker();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtManual = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.dtSalesDateManual = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
             this.gbConnect.SuspendLayout();
             this.gbStatus.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtOutput
@@ -172,6 +178,24 @@
             this.gbConnect.TabStop = false;
             this.gbConnect.Text = "Koneksi Modem";
             // 
+            // dtSalesDate
+            // 
+            this.dtSalesDate.CustomFormat = "dd-MMM-yyyy";
+            this.dtSalesDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtSalesDate.Location = new System.Drawing.Point(128, 91);
+            this.dtSalesDate.Name = "dtSalesDate";
+            this.dtSalesDate.Size = new System.Drawing.Size(104, 20);
+            this.dtSalesDate.TabIndex = 25;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(16, 88);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Tanggal :";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // btnRefreshPort
             // 
             this.btnRefreshPort.Location = new System.Drawing.Point(238, 16);
@@ -211,29 +235,63 @@
             this.timer1.Interval = 5000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label1
+            // groupBox1
             // 
-            this.label1.Location = new System.Drawing.Point(16, 88);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
-            this.label1.TabIndex = 24;
-            this.label1.Text = "Tanggal :";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.groupBox1.Controls.Add(this.dtSalesDateManual);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.btnSave);
+            this.groupBox1.Controls.Add(this.txtManual);
+            this.groupBox1.Location = new System.Drawing.Point(508, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(515, 459);
+            this.groupBox1.TabIndex = 26;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Manual Input";
             // 
-            // dtSalesDate
+            // txtManual
             // 
-            this.dtSalesDate.CustomFormat = "dd-MMM-yyyy";
-            this.dtSalesDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtSalesDate.Location = new System.Drawing.Point(128, 91);
-            this.dtSalesDate.Name = "dtSalesDate";
-            this.dtSalesDate.Size = new System.Drawing.Size(104, 20);
-            this.dtSalesDate.TabIndex = 25;
+            this.txtManual.Location = new System.Drawing.Point(6, 45);
+            this.txtManual.Multiline = true;
+            this.txtManual.Name = "txtManual";
+            this.txtManual.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtManual.Size = new System.Drawing.Size(503, 307);
+            this.txtManual.TabIndex = 1;
+            this.txtManual.WordWrap = false;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(220, 359);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "Simpan";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // dtSalesDateManual
+            // 
+            this.dtSalesDateManual.CustomFormat = "dd-MMM-yyyy";
+            this.dtSalesDateManual.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtSalesDateManual.Location = new System.Drawing.Point(121, 19);
+            this.dtSalesDateManual.Name = "dtSalesDateManual";
+            this.dtSalesDateManual.Size = new System.Drawing.Size(104, 20);
+            this.dtSalesDateManual.TabIndex = 27;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(9, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 23);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Tanggal :";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 483);
+            this.ClientSize = new System.Drawing.Size(1035, 483);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbStatus);
             this.Controls.Add(this.gbConnect);
             this.Name = "Form1";
@@ -241,6 +299,8 @@
             this.gbConnect.ResumeLayout(false);
             this.gbStatus.ResumeLayout(false);
             this.gbStatus.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -265,6 +325,11 @@
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.DateTimePicker dtSalesDate;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.TextBox txtManual;
+        private System.Windows.Forms.DateTimePicker dtSalesDateManual;
+        private System.Windows.Forms.Label label2;
     }
 }
 

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using SharpArch.Core;
 using SharpArch.Web.NHibernate;
+using YTech.Ltr.ApplicationServices.Helper;
 using YTech.Ltr.Core.Master;
 using YTech.Ltr.Core.RepositoryInterfaces;
 using YTech.Ltr.Core.Trans;
@@ -68,12 +69,14 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             string prizeD3 = viewModel.prizeD4_1.Substring(1, 3);
 
             //save details
-            //save D1 and wing
             string strprizeD1 = string.Empty, formatWing = string.Empty;
             for (int i = 0; i < prizeD1.Length; i++)
             {
                 strprizeD1 = prizeD1[i].ToString();
+                //calculate D1
                 SaveResultDet(result, EnumGame.D1, i + 1, strprizeD1);
+
+                //calculate wing
                 switch (i)
                 {
                     case 0:
@@ -90,6 +93,16 @@ namespace YTech.Ltr.Web.Controllers.Transaction
                         break;
                 }
                 SaveResultDet(result, EnumGame.WING, i + 1, string.Format(formatWing, strprizeD1));
+            }
+
+            //calculate prize for paket
+            char[] indexPrizePaket = ("0123").ToCharArray();
+            IList<string> indexResultPaket = indexPrizePaket.AllPermutationsNotDistinct().Where(x => x.Length == 2).ToList();
+            char[] prizePaket;
+            for (int i = 0; i < indexResultPaket.Count; i++)
+            {
+                prizePaket = indexResultPaket[i].ToCharArray();
+                SaveResultDet(result, EnumGame.PAKET, i + 1, string.Format("{0}/{1}", prizeD1[int.Parse(prizePaket[0].ToString())], prizeD1[int.Parse(prizePaket[1].ToString())]));
             }
 
             SaveResultDet(result, EnumGame.D2, 1, prizeD2);

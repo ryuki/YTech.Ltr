@@ -71,6 +71,10 @@ namespace YTech.Ltr.SmsLib.WinForms
             // Create new Service object - the parent of all and the main interface to you.
 
             srv = Service.getInstance();
+
+            //set default date to today
+            dtSalesDate.Value = DateTime.Today;
+            dtSalesDateManual.Value = DateTime.Today;
         }
 
         #region Display all available COM Ports
@@ -176,10 +180,13 @@ namespace YTech.Ltr.SmsLib.WinForms
 
                 // save both stores, this saves everything else via cascading
                 _tMsgRepository.Save(msg);
+                _tMsgRepository.DbContext.CommitTransaction();
 
+
+                _tMsgRepository.DbContext.BeginTransaction();
                 //split string
                 SaveTransHelper hlp = new SaveTransHelper(_tSalesRepository, _tSalesDetRepository, _mGameRepository, _mAgentRepository, _tMsgRepository);
-                hlp.SaveToTrans(msg, m.getText(),dtSalesDate.Value);
+                hlp.SaveToTrans(msg, m.getText(), dtSalesDate.Value);
 
                 _tMsgRepository.DbContext.CommitTransaction();
                 isSuccess = true;
@@ -350,6 +357,28 @@ namespace YTech.Ltr.SmsLib.WinForms
             timer1.Stop();
             btnRead.Enabled = true;
             btnStop.Enabled = false;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            //try
+            {
+                _tSalesRepository.DbContext.BeginTransaction();
+                //split string
+                SaveTransHelper hlp = new SaveTransHelper(_tSalesRepository, _tSalesDetRepository, _mGameRepository, _mAgentRepository, _tMsgRepository);
+                hlp.SaveToTrans(null, txtManual.Text, dtSalesDateManual.Value);
+
+                _tSalesRepository.DbContext.CommitTransaction();
+                MessageBox.Show("Input manual Berhasil disimpan.");
+                txtManual.ResetText();
+            }
+            //catch (Exception ex)
+            //{
+            //    _tSalesRepository.DbContext.RollbackTransaction();
+            //    MessageBox.Show("Input manual gagal disimpan. Error : " + ex.GetBaseException().Message);
+            //    throw;
+            //}
+
         }
     }
 }

@@ -60,7 +60,7 @@
     <div>
 </div>
         <div>
-            Backup Database</div>
+              <%= Html.ActionLinkForAreas<SalesController>(c => c.SalesRecap(), "Hapus Penjualan")%></div>
     </div>
     <%
         }

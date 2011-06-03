@@ -28,17 +28,21 @@ namespace YTech.Ltr.Web.Controllers.Transaction
         private readonly ITSalesDetRepository _tSalesDetRepository;
         private readonly IMGameRepository _mGameRepository;
         private readonly IMAgentRepository _mAgentRepository;
-        public SalesController(ITSalesRepository tSalesRepository, ITSalesDetRepository tSalesDetRepository, IMGameRepository mGameRepository, IMAgentRepository mAgentRepository)
+        private readonly ITResultRepository _tResultRepository;
+
+        public SalesController(ITSalesRepository tSalesRepository, ITSalesDetRepository tSalesDetRepository, IMGameRepository mGameRepository, IMAgentRepository mAgentRepository, ITResultRepository tResultRepository)
         {
             Check.Require(tSalesRepository != null, "tSalesRepository may not be null");
             Check.Require(tSalesDetRepository != null, "tSalesDetRepository may not be null");
             Check.Require(mGameRepository != null, "mGameRepository may not be null");
             Check.Require(mAgentRepository != null, "mAgentRepository may not be null");
+            Check.Require(tResultRepository != null, "tResultRepository may not be null");
 
             this._tSalesRepository = tSalesRepository;
             this._tSalesDetRepository = tSalesDetRepository;
             this._mGameRepository = mGameRepository;
             this._mAgentRepository = mAgentRepository;
+            this._tResultRepository = tResultRepository;
         }
 
         [Transaction]
@@ -136,10 +140,10 @@ namespace YTech.Ltr.Web.Controllers.Transaction
                         if (agentComms.Count > 0)
                         {
                             comm = (from agentComm in agentComms
-                                where agentComm.GameId == game
-                                select agentComm.CommValue).First();
+                                    where agentComm.GameId == game
+                                    select agentComm.CommValue).First();
                         }
-                        
+
                     }
 
                     //recursive and calculate for BB
@@ -159,7 +163,7 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             }
         }
 
-        private void SaveDetsForBB(TSales sales,string detNumber, decimal detValue, MGame gameId, decimal? comm, int leng)
+        private void SaveDetsForBB(TSales sales, string detNumber, decimal detValue, MGame gameId, decimal? comm, int leng)
         {
             var result = detNumber.AllPermutations().Where(x => x.Length == leng);
             foreach (var res in result)
@@ -192,6 +196,76 @@ namespace YTech.Ltr.Web.Controllers.Transaction
             det.CreatedBy = User.Identity.Name;
             det.DataStatus = EnumDataStatus.New.ToString();
             _tSalesDetRepository.Save(det);
+        }
+
+
+        [Transaction]
+        public ActionResult SalesRecap()
+        {
+            return View();
+        }
+
+        [Transaction]
+        public ActionResult ListSalesRecap(string sidx, string sord, int page, int rows)
+        {
+            int totalRecords = 0;
+            IList recaps = _tSalesRepository.GetSalesRecap(sidx, sord, page, rows, ref totalRecords);
+            IList<RecapSalesViewModel> listResult = new List<RecapSalesViewModel>();
+            RecapSalesViewModel det = new RecapSalesViewModel();
+            object[] obj;
+            for (int i = 0; i < recaps.Count; i++)
+            {
+                obj = (object[])recaps[i];
+                det = new RecapSalesViewModel();
+                det.SalesDate = Convert.ToDateTime(obj[0]);
+                det.CountSalesDet = Convert.ToInt32(obj[1]);
+                listResult.Add(det);
+            }
+            int pageSize = rows;
+            int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
+            var jsonData = new
+            {
+                total = totalPages,
+                page = page,
+                records = totalRecords,
+                rows = (
+                    from result in listResult
+                    select new
+                    {
+                        i = result.SalesDate,
+                        cell = new string[] {
+                           result.SalesDate.HasValue ? result.SalesDate.Value.ToString(Helper.CommonHelper.DateFormat):null,
+                           result.SalesDate.HasValue ? result.SalesDate.Value.ToString(Helper.CommonHelper.DateFormat):null, 
+                           result.CountSalesDet.HasValue ? result.CountSalesDet.Value.ToString() : null
+                        }
+                    }).ToArray()
+            };
+
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        [Transaction]
+        public ActionResult DeleteSales(RecapSalesViewModel viewModel, FormCollection formCollection)
+        {
+            DateTime salesDate = Convert.ToDateTime(formCollection["id"]);
+            _tSalesRepository.DbContext.BeginTransaction();
+            try
+            {
+                _tSalesRepository.DeleteByDate(salesDate);
+                TResult result = _tResultRepository.GetResultByDate(salesDate);
+                if (result != null)
+                    _tResultRepository.Delete(result);
+
+                _tSalesRepository.DbContext.CommitChanges();
+            }
+            catch (Exception e)
+            {
+                _tSalesRepository.DbContext.RollbackTransaction();
+                return Content(e.GetBaseException().Message);
+            }
+
+            return Content("Data Penjualan berhasil dihapus");
         }
     }
 }

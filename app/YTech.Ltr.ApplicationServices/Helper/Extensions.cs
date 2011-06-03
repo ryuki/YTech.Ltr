@@ -33,6 +33,17 @@ namespace YTech.Ltr.ApplicationServices.Helper
             }).Distinct();
         }
 
+        public static IEnumerable<string> AllPermutationsNotDistinct(this IEnumerable<char> s)
+        {
+            return s.SelectMany(x =>
+            {
+                var index = Array.IndexOf(s.ToArray(), x);
+                return s.Where((y, i) => i != index).AllPermutationsNotDistinct()
+                        .Select(y => new string(new[] { x }.Concat(y).ToArray()))
+                        .Union(new[] { new string(new[] { x }) });
+            });
+        }
+
 
         //public static IEnumerable<T> Traverse(IEnumerable<T> source, Func<T, IEnumerable<T>> fnRecurse)
         //{

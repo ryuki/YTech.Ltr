@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using YTech.Ltr.ApplicationServices.Helper;
@@ -42,21 +43,35 @@ namespace YTech.Ltr.SmsLib.WinForms
         {
             //many line breaks, every handphone have different string
             string[] separator = new string[] { "\n", "\r", "\r\n", "\n\r" };
-            string[] lines = msg.ToUpper().Split(separator, StringSplitOptions.RemoveEmptyEntries);// Regex.Split(msg.ToUpper(), "\n");
+            string[] lines = msg.Replace(" ", "").ToUpper().Split(separator, StringSplitOptions.RemoveEmptyEntries);// Regex.Split(msg.ToUpper(), "\n");
             string agentId = string.Empty;
             string salesNo = string.Empty;
 
             IList<DetailMessage> listDet = new List<DetailMessage>();
             DetailMessage detMsg = null;
+            decimal factor = 1;
+            bool isHBR = false;
+            bool isTH = false;
             foreach (string line in lines)
             {
                 if (line.Contains("A="))
                 {
-                    agentId = line.Trim().Replace("A=", "");
+                    agentId = line.Replace("A=", "");
                 }
                 else if (line.Contains("KE="))
                 {
-                    salesNo = line.Trim().Replace("KE=", "");
+                    salesNo = line.Replace("KE=", "");
+                }
+                //if message contain HRB string, the game is HBR
+                else if (line.Contains("HBR"))
+                {
+                    factor = 2;
+                    isHBR = true;
+                }
+                //if message contain TH string, the game is TH
+                else if (line.Contains("TH"))
+                {
+                    isTH = true;
                 }
                 else
                 {
@@ -68,47 +83,39 @@ namespace YTech.Ltr.SmsLib.WinForms
                     //check if games is BB
                     if (dets[1].Contains("BB"))
                     {
-                        decimal? value = decimal.Parse(dets[1].Trim().Replace("BB", ""));
+                        decimal value = 0;
+                        if (!decimal.TryParse(dets[1].Replace("BB", ""), out value))
+                        {
+                            throw new Exception("Format angka salah!!!");
+                        }
+
                         string[] sep = new string[] { ".", "," };
-                        string[] numbers = det.Trim().Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                        string[] numbers = det.Split(sep, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string num in numbers)
                         {
                             detMsg = new DetailMessage();
-                            detMsg.GameId = string.Format("D{0}", num.Trim().Length);
-                            detMsg.SalesNumber = num.Trim();
-                            detMsg.SalesValue = value;
+                            detMsg.GameId = string.Format("D{0}", num.Length);
+                            detMsg.SalesNumber = num;
+                            detMsg.SalesValue = value * factor;
                             detMsg.IsBB = true;
+                            detMsg.IsHBR = isHBR;
                             listDet.Add(detMsg);
                         }
                     }
                     //if not, just do it
                     else
                     {
-                        decimal? value;
-                        try
+                        decimal value = 0;
+                        if (!decimal.TryParse(dets[1], out value))
                         {
-                            if (dets[1].ToUpper().Contains("HBR"))
-                            {
-                                value = decimal.Parse(dets[1].Trim().ToUpper().Replace("HBR", "")) * 2;
-                            }
-                            else if (dets[1].ToUpper().Contains("TH"))
-                            {
-                                value = decimal.Parse(dets[1].Trim().ToUpper().Replace("TH", ""));
-                            }
-                            else
-                            {
-                                value = decimal.Parse(dets[1]);
-                            }
+                            throw new Exception("Format angka salah!!!");
                         }
-                        catch (Exception)
-                        {
-                            throw new Exception("Format nilai salah, harus mengandung kata angka + HBR atau angka + TH atau angka saja.");
-                        }
+
                         //cannot use regex .(dot), it use for other functionality
                         // string[] numbers = Regex.Split(det, ".");
 
-                        string[] sep = new string[] { ".", "," };
-                        string[] numbers = det.Trim().Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                        string[] sep = new[] { ".", "," };
+                        string[] numbers = det.Split(sep, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string num in numbers)
                         {
                             detMsg = new DetailMessage();
@@ -117,22 +124,23 @@ namespace YTech.Ltr.SmsLib.WinForms
                             if (num.Contains("X"))
                             {
                                 detMsg.GameId = EnumGame.WING.ToString();
-                            } 
-                            else if (dets[1].ToUpper().Contains("TH"))
+                            }
+                            else if (isTH)
                             {
                                 detMsg.GameId = EnumGame.D4TH.ToString();
+                            }
+                            else if (num.Contains("/"))
+                            {
+                                detMsg.GameId = EnumGame.PAKET.ToString();
                             }
                             //if not, use regular games
                             else
                             {
-                                detMsg.GameId = string.Format("D{0}", num.Trim().Length); 
-                                if (dets[1].ToUpper().Contains("HBR"))
-                                {
-                                    detMsg.SalesDesc = string.Format("HBR : {0}",num.Trim());
-                                }
+                                detMsg.GameId = string.Format("D{0}", num.Length);
                             }
-                            detMsg.SalesNumber = num.Trim();
-                            detMsg.SalesValue = value;
+                            detMsg.SalesNumber = num;
+                            detMsg.SalesValue = value * factor;
+                            detMsg.IsHBR = isHBR;
                             listDet.Add(detMsg);
                         }
                     }
@@ -173,12 +181,12 @@ namespace YTech.Ltr.SmsLib.WinForms
             return sales;
         }
 
-        private void SaveDetsForBB(TSales sales, string detNumber, decimal? detValue, MGame gameId, decimal? comm, int leng)
+        private void SaveDetsForBB(TSales sales, string detNumber, decimal? detValue, MGame gameId, decimal? comm, int leng, string desc)
         {
             var result = detNumber.AllPermutations().Where(x => x.Length == leng);
             foreach (var res in result)
             {
-                SaveSalesDet(sales, res, detValue, gameId, comm, string.Format("BB : {0}", detNumber));
+                SaveSalesDet(sales, res, detValue, gameId, comm, string.Format("{0} BB : {1}", desc, detNumber));
             }
         }
 
@@ -190,22 +198,31 @@ namespace YTech.Ltr.SmsLib.WinForms
 
             IDictionary<string, MGame> dictGame = GetDictGame();
             MGame game = null;
+            string desc = string.Empty;
             foreach (DetailMessage detailMessage in listDet)
             {
                 dictGame.TryGetValue(detailMessage.GameId, out game);
+                if (detailMessage.IsHBR)
+                {
+                    desc = string.Format("HBR : {0}", detailMessage.SalesNumber);
+                }
                 if (agentComms.Count > 0)
                 {
-                    comm = (from agentComm in agentComms
-                            where agentComm.GameId == game
-                            select agentComm.CommValue).First();
+                    var getComms = (from agentComm in agentComms
+                                    where agentComm.GameId == game
+                                    select agentComm.CommValue);
+                    if (getComms.Count() > 0)
+                    {
+                        comm = getComms.First();
+                    }
                 }
                 if (detailMessage.IsBB)
                 {
-                    SaveDetsForBB(sales, detailMessage.SalesNumber, detailMessage.SalesValue, game, comm, detailMessage.SalesNumber.Length);
+                    SaveDetsForBB(sales, detailMessage.SalesNumber, detailMessage.SalesValue, game, comm, detailMessage.SalesNumber.Length, desc);
                 }
                 else
                 {
-                    SaveSalesDet(sales, detailMessage.SalesNumber, detailMessage.SalesValue, game, comm, detailMessage.SalesDesc);
+                    SaveSalesDet(sales, detailMessage.SalesNumber, detailMessage.SalesValue, game, comm, desc);
                 }
 
             }
