@@ -65,7 +65,6 @@ namespace YTech.Ltr.SmsLib.WinForms
                 //if message contain HRB string, the game is HBR
                 else if (line.Contains("HBR"))
                 {
-                    factor = 2;
                     isHBR = true;
                 }
                 //if message contain TH string, the game is TH
@@ -98,7 +97,13 @@ namespace YTech.Ltr.SmsLib.WinForms
                             detMsg.SalesNumber = num;
                             detMsg.SalesValue = value * factor;
                             detMsg.IsBB = true;
-                            detMsg.IsHBR = isHBR;
+                            detMsg.IsHBR = false;
+                            //HBR with factor = 2 is for only game D4 only
+                            if (isHBR && num.Length == 4)
+                            {
+                                detMsg.SalesValue = value * 2;
+                                detMsg.IsHBR = true;
+                            }
                             listDet.Add(detMsg);
                         }
                     }
@@ -125,10 +130,6 @@ namespace YTech.Ltr.SmsLib.WinForms
                             {
                                 detMsg.GameId = EnumGame.WING.ToString();
                             }
-                            else if (isTH)
-                            {
-                                detMsg.GameId = EnumGame.D4TH.ToString();
-                            }
                             else if (num.Contains("/"))
                             {
                                 detMsg.GameId = EnumGame.PAKET.ToString();
@@ -137,10 +138,21 @@ namespace YTech.Ltr.SmsLib.WinForms
                             else
                             {
                                 detMsg.GameId = string.Format("D{0}", num.Length);
+                                if (isTH && num.Length == 4)
+                                {
+                                    detMsg.GameId = EnumGame.D4TH.ToString();
+                                }
                             }
                             detMsg.SalesNumber = num;
                             detMsg.SalesValue = value * factor;
-                            detMsg.IsHBR = isHBR;
+                            detMsg.IsHBR = false;
+
+                            //HBR with factor = 2 is for only game D4 only
+                            if (isHBR && num.Length == 4)
+                            {
+                                detMsg.SalesValue = value * 2;
+                                detMsg.IsHBR = true;
+                            }
                             listDet.Add(detMsg);
                         }
                     }

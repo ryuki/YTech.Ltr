@@ -175,20 +175,12 @@ namespace YTech.Ltr.SmsLib.WinForms
                 msg.SetAssignedIdTo(Guid.NewGuid().ToString());
                 msg.MsgDate = DateTime.Now;// Convert.ToDateTime(m.getDate().toGMTString());
                 msg.MsgFrom = m.getOriginator();
-                msg.MsgTo = "";
                 msg.MsgText = m.getText();
-
+                msg.DataStatus = EnumDataStatus.New.ToString();
+                msg.CreatedBy = Environment.UserName;
+                msg.CreatedDate = DateTime.Now;
                 // save both stores, this saves everything else via cascading
                 _tMsgRepository.Save(msg);
-                _tMsgRepository.DbContext.CommitTransaction();
-
-
-                _tMsgRepository.DbContext.BeginTransaction();
-                //split string
-                SaveTransHelper hlp = new SaveTransHelper(_tSalesRepository, _tSalesDetRepository, _mGameRepository, _mAgentRepository, _tMsgRepository);
-                hlp.SaveToTrans(msg, m.getText(), dtSalesDate.Value);
-
-                _tMsgRepository.DbContext.CommitTransaction();
                 isSuccess = true;
                 pesan = "\nBerhasil.";
             }
@@ -203,11 +195,8 @@ namespace YTech.Ltr.SmsLib.WinForms
             {
                 if (isSuccess.HasValue)
                 {
-                    string txt = m.getText();
-                    string sender = "+" + m.getOriginator();
+                    //delete sms
                     bool deleteSuccess = gateway.deleteMessage(m);
-
-                    bool replySuccess = SendMessage(txt, sender, pesan);
                 }
             }
         }
@@ -260,8 +249,8 @@ namespace YTech.Ltr.SmsLib.WinForms
         {
             btnRead.Enabled = false;
             btnStop.Enabled = true;
-            timer1.Start();
-
+            timerSms.Start();
+            timerTrans.Start();
             //btnRead.Enabled = false;
             //txtOutput.Clear();
             //ReadSMS();
@@ -308,10 +297,10 @@ namespace YTech.Ltr.SmsLib.WinForms
         {
             btnStop.Enabled = false;
             Output(string.Format("--------- Start {0} ------------", DateTime.Now));
-            timer1.Stop();
+            timerSms.Stop();
             ReadSMS();
-            timer1.Start();
-            Output(string.Format("--------- Stop {1} ------------", DateTime.Now));
+            timerSms.Start();
+            Output(string.Format("--------- Stop {0} ------------", DateTime.Now));
             btnStop.Enabled = true;
         }
 
@@ -354,14 +343,15 @@ namespace YTech.Ltr.SmsLib.WinForms
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
+            timerSms.Stop();
+            timerTrans.Stop();
             btnRead.Enabled = true;
             btnStop.Enabled = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //try
+            try
             {
                 _tSalesRepository.DbContext.BeginTransaction();
                 //split string
@@ -372,13 +362,67 @@ namespace YTech.Ltr.SmsLib.WinForms
                 MessageBox.Show("Input manual Berhasil disimpan.");
                 txtManual.ResetText();
             }
-            //catch (Exception ex)
-            //{
-            //    _tSalesRepository.DbContext.RollbackTransaction();
-            //    MessageBox.Show("Input manual gagal disimpan. Error : " + ex.GetBaseException().Message);
-            //    throw;
-            //}
+            catch (Exception ex)
+            {
+                _tSalesRepository.DbContext.RollbackTransaction();
+                MessageBox.Show("Input manual gagal disimpan. Error : " + ex.GetBaseException().Message);
+                //throw;
+            }
 
+        }
+
+        private void timerTrans_Tick(object sender, EventArgs e)
+        {
+            IList<TMsg> listMsg = _tMsgRepository.GetMsgNotRead();
+            foreach (TMsg msg in listMsg)
+            {
+                //save trans
+                SaveTrans(msg);
+            }
+        }
+
+        private void SaveTrans(TMsg msg)
+        {
+            string pesan = string.Empty;
+            bool? isSuccess = null;
+            try
+            {
+                _tSalesRepository.DbContext.BeginTransaction();
+
+                //split string
+                SaveTransHelper hlp = new SaveTransHelper(_tSalesRepository, _tSalesDetRepository, _mGameRepository, _mAgentRepository, _tMsgRepository);
+                hlp.SaveToTrans(msg, msg.MsgText, dtSalesDate.Value);
+
+
+                _tSalesRepository.DbContext.CommitTransaction();
+                isSuccess = true;
+                pesan = "\nBerhasil.";
+            }
+            catch (Exception ex)
+            {
+                _tSalesRepository.DbContext.RollbackTransaction();
+                //throw ex;
+                isSuccess = false;
+                pesan = "\nGagal.\n" + ex.GetBaseException().Message;
+            }
+            finally
+            {
+                if (isSuccess.HasValue)
+                {
+                    _tSalesRepository.DbContext.BeginTransaction();
+                    //update msg status
+                    msg.MsgStatus = string.Format("Read|{0}", isSuccess.Value.ToString());
+                    msg.DataStatus = EnumDataStatus.Updated.ToString();
+                    msg.ModifiedBy = Environment.UserName;
+                    msg.ModifiedDate = DateTime.Now;
+                    _tMsgRepository.Update(msg);
+                    _tSalesRepository.DbContext.CommitTransaction();
+
+                    string txt = msg.MsgText;
+                    string sender = "+" + msg.MsgFrom;
+                    bool replySuccess = SendMessage(txt, sender, pesan);
+                }
+            }
         }
     }
 }

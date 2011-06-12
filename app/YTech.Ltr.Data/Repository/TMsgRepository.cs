@@ -28,5 +28,17 @@ namespace YTech.Ltr.Data.Repository
             var noOfRow = Convert.ToInt64(q.UniqueResult());
             return (noOfRow > 0);
         }
+
+        public IList<TMsg> GetMsgNotRead()
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.AppendLine(@"   select msg
+                                from TMsg msg
+                                    where 1=1 ");
+            sql.AppendLine(@"   and msg.MsgStatus = null");
+
+            IQuery q = Session.CreateQuery(sql.ToString()); 
+            return q.List<TMsg>();
+        }
     }
 }

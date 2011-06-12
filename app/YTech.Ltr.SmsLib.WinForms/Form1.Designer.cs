@@ -46,12 +46,13 @@
             this.btnRefreshPort = new System.Windows.Forms.Button();
             this.gbStatus = new System.Windows.Forms.GroupBox();
             this.btnStop = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timerSms = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtManual = new System.Windows.Forms.TextBox();
-            this.btnSave = new System.Windows.Forms.Button();
             this.dtSalesDateManual = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.txtManual = new System.Windows.Forms.TextBox();
+            this.timerTrans = new System.Windows.Forms.Timer(this.components);
             this.gbConnect.SuspendLayout();
             this.gbStatus.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -230,10 +231,10 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // timer1
+            // timerSms
             // 
-            this.timer1.Interval = 5000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timerSms.Interval = 5000;
+            this.timerSms.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // groupBox1
             // 
@@ -247,26 +248,6 @@
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Manual Input";
-            // 
-            // txtManual
-            // 
-            this.txtManual.Location = new System.Drawing.Point(6, 45);
-            this.txtManual.Multiline = true;
-            this.txtManual.Name = "txtManual";
-            this.txtManual.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtManual.Size = new System.Drawing.Size(503, 307);
-            this.txtManual.TabIndex = 1;
-            this.txtManual.WordWrap = false;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(220, 359);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 2;
-            this.btnSave.Text = "Simpan";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // dtSalesDateManual
             // 
@@ -285,6 +266,31 @@
             this.label2.TabIndex = 26;
             this.label2.Text = "Tanggal :";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(220, 359);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 2;
+            this.btnSave.Text = "Simpan";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // txtManual
+            // 
+            this.txtManual.Location = new System.Drawing.Point(6, 45);
+            this.txtManual.Multiline = true;
+            this.txtManual.Name = "txtManual";
+            this.txtManual.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtManual.Size = new System.Drawing.Size(503, 307);
+            this.txtManual.TabIndex = 1;
+            this.txtManual.WordWrap = false;
+            // 
+            // timerTrans
+            // 
+            this.timerTrans.Interval = 7000;
+            this.timerTrans.Tick += new System.EventHandler(this.timerTrans_Tick);
             // 
             // Form1
             // 
@@ -321,7 +327,7 @@
         private System.Windows.Forms.GroupBox gbConnect;
         private System.Windows.Forms.GroupBox gbStatus;
         private System.Windows.Forms.Button btnRefreshPort;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timerSms;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.DateTimePicker dtSalesDate;
         private System.Windows.Forms.Label label1;
@@ -330,6 +336,7 @@
         private System.Windows.Forms.TextBox txtManual;
         private System.Windows.Forms.DateTimePicker dtSalesDateManual;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Timer timerTrans;
     }
 }
 

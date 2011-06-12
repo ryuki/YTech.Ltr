@@ -48,6 +48,13 @@ namespace YTech.Ltr.Data.Repository
             q = Session.CreateQuery(sql.ToString());
             q.SetDateTime("SalesDate", salesDate);
             q.ExecuteUpdate();
+            ////delete sms
+            //sql = new StringBuilder();
+            //sql.AppendLine(@" delete from TMsg as s where s.MsgDate between :SalesDate and :SalesDateTo ");
+            //q = Session.CreateQuery(sql.ToString());
+            //q.SetDateTime("SalesDate", salesDate);
+            //q.SetDateTime("SalesDateTo", salesDate.AddDays(1));
+            //q.ExecuteUpdate();
         }
     }
 }
