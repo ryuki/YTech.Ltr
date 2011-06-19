@@ -10,5 +10,9 @@ namespace YTech.Ltr.Core.RepositoryInterfaces
         IList GetSalesRecap(string orderCol, string orderBy, int pageIndex, int maxRows,ref int totalRows);
 
         void DeleteByDate(System.DateTime salesDate);
+
+        IList<TSales> GetSalesList(string orderCol, string orderBy, int pageIndex, int maxRows, ref int totalRows);
+
+        void DeleteById(string salesId);
     }
 }

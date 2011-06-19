@@ -19,11 +19,11 @@ namespace YTech.Ltr.Data.Repository
             sql.AppendLine(@"  from TSales as s ");
             // left outer join s.SalesDets per
 
-
-            string queryCount = string.Format(" select count(s.Id) {0}", sql);
+            //sql ce not support count(distinct ) query, so distinct first, then get count of list
+            string queryCount = string.Format(" select distinct s.SalesDate {0}", sql);
             IQuery q = Session.CreateQuery(queryCount);
-
-            totalRows = Convert.ToInt32(q.UniqueResult());
+            IList result = q.List();
+            totalRows = result.Count;
 
 
             string query = string.Format(" select s.SalesDate, count(s.Id) {0} group by s.SalesDate", sql);
@@ -55,6 +55,43 @@ namespace YTech.Ltr.Data.Repository
             //q.SetDateTime("SalesDate", salesDate);
             //q.SetDateTime("SalesDateTo", salesDate.AddDays(1));
             //q.ExecuteUpdate();
+        }
+
+        public IList<TSales> GetSalesList(string orderCol, string orderBy, int pageIndex, int maxRows, ref int totalRows)
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.AppendLine(@"  from TSales as s ");
+            // left outer join s.SalesDets per
+
+
+            string queryCount = string.Format(" select count(s.Id) {0}", sql);
+            IQuery q = Session.CreateQuery(queryCount);
+
+            totalRows = Convert.ToInt32(q.UniqueResult());
+
+
+            string query = string.Format(" select s {0} order by s.SalesDate desc, s.SalesNo asc", sql);
+            q = Session.CreateQuery(query);
+            q.SetMaxResults(maxRows);
+            q.SetFirstResult((pageIndex - 1) * maxRows);
+            IList<TSales> list = q.List<TSales>();
+            return list;
+        }
+
+        public void DeleteById(string salesId)
+        {
+            StringBuilder sql = new StringBuilder();
+            //delete detail sales
+            sql.AppendLine(@" delete from TSalesDet as det where det.SalesId.Id = :SalesId ");
+            IQuery q = Session.CreateQuery(sql.ToString());
+            q.SetString("SalesId", salesId);
+            q.ExecuteUpdate();
+            //delete sales
+            sql = new StringBuilder();
+            sql.AppendLine(@" delete from TSales as s where s.Id = :SalesId ");
+            q = Session.CreateQuery(sql.ToString());
+            q.SetString("SalesId", salesId);
+            q.ExecuteUpdate();
         }
     }
 }

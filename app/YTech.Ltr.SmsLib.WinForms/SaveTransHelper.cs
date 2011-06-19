@@ -51,7 +51,9 @@ namespace YTech.Ltr.SmsLib.WinForms
             DetailMessage detMsg = null;
             decimal factor = 1;
             bool isHBR = false;
-            bool isTH = false;
+            
+            //set TH as default game
+            bool isTH = true;
             foreach (string line in lines)
             {
                 if (line.Contains("A="))
@@ -66,12 +68,13 @@ namespace YTech.Ltr.SmsLib.WinForms
                 else if (line.Contains("HBR"))
                 {
                     isHBR = true;
+                    isTH = false;
                 }
-                //if message contain TH string, the game is TH
-                else if (line.Contains("TH"))
-                {
-                    isTH = true;
-                }
+                ////if message contain TH string, the game is TH
+                //else if (line.Contains("TH"))
+                //{
+                //    isTH = true;
+                //}
                 else
                 {
                     //search game and value
@@ -83,17 +86,26 @@ namespace YTech.Ltr.SmsLib.WinForms
                     if (dets[1].Contains("BB"))
                     {
                         decimal value = 0;
-                        if (!decimal.TryParse(dets[1].Replace("BB", ""), out value))
+                        //replace comma with dot to identify decimal number, ex : 0,5
+                        if (!decimal.TryParse(dets[1].Replace("BB", "").Replace(",","."), out value))
                         {
                             throw new Exception("Format angka salah!!!");
                         }
 
-                        string[] sep = new string[] { ".", "," };
+                        string[] sep = new string[] { "." };
                         string[] numbers = det.Split(sep, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string num in numbers)
                         {
                             detMsg = new DetailMessage();
-                            detMsg.GameId = string.Format("D{0}", num.Length);
+                            
+                            if (isTH && num.Length == 4)
+                            {
+                                detMsg.GameId = EnumGame.D4TH.ToString();
+                            }
+                            else
+                            {
+                               detMsg.GameId = string.Format("D{0}", num.Length); 
+                            }
                             detMsg.SalesNumber = num;
                             detMsg.SalesValue = value * factor;
                             detMsg.IsBB = true;
@@ -111,7 +123,7 @@ namespace YTech.Ltr.SmsLib.WinForms
                     else
                     {
                         decimal value = 0;
-                        if (!decimal.TryParse(dets[1], out value))
+                        if (!decimal.TryParse(dets[1].Replace(",", "."), out value))
                         {
                             throw new Exception("Format angka salah!!!");
                         }
@@ -119,7 +131,7 @@ namespace YTech.Ltr.SmsLib.WinForms
                         //cannot use regex .(dot), it use for other functionality
                         // string[] numbers = Regex.Split(det, ".");
 
-                        string[] sep = new[] { ".", "," };
+                        string[] sep = new[] { "." };
                         string[] numbers = det.Split(sep, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string num in numbers)
                         {
@@ -137,10 +149,14 @@ namespace YTech.Ltr.SmsLib.WinForms
                             //if not, use regular games
                             else
                             {
-                                detMsg.GameId = string.Format("D{0}", num.Length);
+                               
                                 if (isTH && num.Length == 4)
                                 {
                                     detMsg.GameId = EnumGame.D4TH.ToString();
+                                }
+                                else
+                                {
+                                     detMsg.GameId = string.Format("D{0}", num.Length);
                                 }
                             }
                             detMsg.SalesNumber = num;

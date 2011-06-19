@@ -36,6 +36,10 @@ namespace YTech.Ltr.SmsLib.WinForms
             var tSalesDetRepository = container.Resolve<ITSalesDetRepository>();
             var tMsgRepository = container.Resolve<ITMsgRepository>();
             var mAgentRepository = container.Resolve<IMAgentRepository>();
+
+            ////set thrown error
+            //Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1(tSalesRepository, tSalesDetRepository, mGameRepository, mAgentRepository, tMsgRepository));

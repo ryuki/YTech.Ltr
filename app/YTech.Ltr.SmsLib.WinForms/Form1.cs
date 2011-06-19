@@ -385,6 +385,8 @@ namespace YTech.Ltr.SmsLib.WinForms
         {
             string pesan = string.Empty;
             bool? isSuccess = null;
+            //MessageBox.Show(msg.MsgText);
+            //MessageBox.Show(msg.MsgFrom);
             try
             {
                 _tSalesRepository.DbContext.BeginTransaction();
@@ -392,8 +394,7 @@ namespace YTech.Ltr.SmsLib.WinForms
                 //split string
                 SaveTransHelper hlp = new SaveTransHelper(_tSalesRepository, _tSalesDetRepository, _mGameRepository, _mAgentRepository, _tMsgRepository);
                 hlp.SaveToTrans(msg, msg.MsgText, dtSalesDate.Value);
-
-
+                
                 _tSalesRepository.DbContext.CommitTransaction();
                 isSuccess = true;
                 pesan = "\nBerhasil.";
@@ -401,9 +402,9 @@ namespace YTech.Ltr.SmsLib.WinForms
             catch (Exception ex)
             {
                 _tSalesRepository.DbContext.RollbackTransaction();
-                //throw ex;
                 isSuccess = false;
                 pesan = "\nGagal.\n" + ex.GetBaseException().Message;
+                //throw ex;
             }
             finally
             {

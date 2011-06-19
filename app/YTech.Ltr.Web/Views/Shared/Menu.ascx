@@ -60,7 +60,9 @@
     <div>
 </div>
         <div>
-              <%= Html.ActionLinkForAreas<SalesController>(c => c.SalesRecap(), "Hapus Penjualan")%></div>
+              <%= Html.ActionLinkForAreas<SalesController>(c => c.SalesRecap(), "Hapus Penjualan Per Tanggal")%></div>
+        <div>
+              <%= Html.ActionLinkForAreas<SalesController>(c => c.SalesList(), "Hapus Penjualan")%></div>
     </div>
     <%
         }

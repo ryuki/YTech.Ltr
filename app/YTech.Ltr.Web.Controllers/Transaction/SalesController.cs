@@ -267,5 +267,62 @@ namespace YTech.Ltr.Web.Controllers.Transaction
 
             return Content("Data Penjualan berhasil dihapus");
         }
+
+        [Transaction]
+        public ActionResult SalesList()
+        {
+            return View();
+        }
+
+        [Transaction]
+        public ActionResult ListSalesList(string sidx, string sord, int page, int rows)
+        {
+            int totalRecords = 0;
+            IList<TSales> recaps = _tSalesRepository.GetSalesList(sidx, sord, page, rows, ref totalRecords);
+            int pageSize = rows;
+            int totalPages = (int)Math.Ceiling((float)totalRecords / (float)pageSize);
+            var jsonData = new
+            {
+                total = totalPages,
+                page = page,
+                records = totalRecords,
+                rows = (
+                    from result in recaps
+                    select new
+                    {
+                        i = result.SalesDate,
+                        cell = new string[] {
+                            result.Id, 
+                           result.SalesDate.HasValue ? result.SalesDate.Value.ToString(Helper.CommonHelper.DateFormat):null, 
+                           result.AgentId != null ? result.AgentId.AgentName : null,
+                           result.SalesNo
+                        }
+                    }).ToArray()
+            };
+
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        [Transaction]
+        public ActionResult DeleteSalesById(RecapSalesViewModel viewModel, FormCollection formCollection)
+        { 
+            _tSalesRepository.DbContext.BeginTransaction();
+            try
+            {
+                _tSalesRepository.DeleteById(formCollection["id"]); 
+
+                _tSalesRepository.DbContext.CommitChanges();
+            }
+            catch (Exception e)
+            {
+                _tSalesRepository.DbContext.RollbackTransaction();
+                return Content(e.GetBaseException().Message);
+            }
+
+            return Content("Data Penjualan berhasil dihapus");
+        }
+    
+    
     }
 }

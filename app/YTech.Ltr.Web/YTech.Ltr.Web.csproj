@@ -170,34 +170,34 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\lib\sqlceca35.dll">
+    <None Include="..\..\lib\sqlceca35.dll">
       <Link>sqlceca35.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\sqlcecompact35.dll">
+    </None>
+    <None Include="..\..\lib\sqlcecompact35.dll">
       <Link>sqlcecompact35.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\sqlceer35EN.dll">
+    </None>
+    <None Include="..\..\lib\sqlceer35EN.dll">
       <Link>sqlceer35EN.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\sqlceme35.dll">
+    </None>
+    <None Include="..\..\lib\sqlceme35.dll">
       <Link>sqlceme35.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\sqlceoledb35.dll">
+    </None>
+    <None Include="..\..\lib\sqlceoledb35.dll">
       <Link>sqlceoledb35.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\sqlceqp35.dll">
+    </None>
+    <None Include="..\..\lib\sqlceqp35.dll">
       <Link>sqlceqp35.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\sqlcese35.dll">
+    </None>
+    <None Include="..\..\lib\sqlcese35.dll">
       <Link>sqlcese35.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Content\css\complex.css" />
     <Content Include="Content\css\layout-default-latest.css" />
     <Content Include="Content\css\master.css" />
@@ -285,6 +285,7 @@
     <Content Include="Views\Transaction\Report\Report.aspx" />
     <Content Include="Views\Transaction\Report\ReportParamForm.ascx" />
     <Content Include="Views\Transaction\Result\Result.aspx" />
+    <Content Include="Views\Transaction\Sales\SalesList.aspx" />
     <Content Include="Views\Transaction\Sales\SalesRecap.aspx" />
     <Content Include="Views\Transaction\Sales\Sales.aspx" />
     <Content Include="Views\Utility\UserAccount\ChangePassword.aspx" />
