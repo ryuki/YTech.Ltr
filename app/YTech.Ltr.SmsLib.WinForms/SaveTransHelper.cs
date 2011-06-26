@@ -8,6 +8,7 @@ using YTech.Ltr.Core.Master;
 using YTech.Ltr.Core.RepositoryInterfaces;
 using YTech.Ltr.Core.Trans;
 using YTech.Ltr.Enums;
+using System.Configuration;
 
 namespace YTech.Ltr.SmsLib.WinForms
 {
@@ -51,9 +52,14 @@ namespace YTech.Ltr.SmsLib.WinForms
             DetailMessage detMsg = null;
             decimal factor = 1;
             bool isHBR = false;
-            
+
             //set TH as default game
             bool isTH = true;
+            //separate number with value with this string
+            string[] valueseparator = new string[] { ConfigurationManager.AppSettings["ValueSeparator"] };
+            string valseparator = ConfigurationManager.AppSettings["ValueSeparator"];
+            //separate each number with this string
+            string[] numseparator = new string[] { ConfigurationManager.AppSettings["NumSeparator"] };
             foreach (string line in lines)
             {
                 if (line.Contains("A="))
@@ -80,31 +86,32 @@ namespace YTech.Ltr.SmsLib.WinForms
                     //search game and value
                     //det[0] = number list
                     //det[1] = value and game (for BB)
-                    string[] dets = Regex.Split(line, "=");
-                    string det = dets[0].Trim();
+                    //string[] dets = line.Split(valueseparator, StringSplitOptions.RemoveEmptyEntries); // Regex.Split(line, "=");
+                    //string det = dets[0].Trim();
+                    string val = line.Substring(line.LastIndexOf(valseparator)+1);
+                    string nums = line.Substring(0, line.LastIndexOf(valseparator));
                     //check if games is BB
-                    if (dets[1].Contains("BB"))
+                    if (val.Contains("BB"))
                     {
                         decimal value = 0;
                         //replace comma with dot to identify decimal number, ex : 0,5
-                        if (!decimal.TryParse(dets[1].Replace("BB", "").Replace(",","."), out value))
+                        if (!decimal.TryParse(val.Replace("BB", "").Replace(",", "."), out value))
                         {
                             throw new Exception("Format angka salah!!!");
                         }
 
-                        string[] sep = new string[] { "." };
-                        string[] numbers = det.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                        string[] numbers = nums.Split(numseparator, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string num in numbers)
                         {
                             detMsg = new DetailMessage();
-                            
+
                             if (isTH && num.Length == 4)
                             {
                                 detMsg.GameId = EnumGame.D4TH.ToString();
                             }
                             else
                             {
-                               detMsg.GameId = string.Format("D{0}", num.Length); 
+                                detMsg.GameId = string.Format("D{0}", num.Length);
                             }
                             detMsg.SalesNumber = num;
                             detMsg.SalesValue = value * factor;
@@ -123,7 +130,7 @@ namespace YTech.Ltr.SmsLib.WinForms
                     else
                     {
                         decimal value = 0;
-                        if (!decimal.TryParse(dets[1].Replace(",", "."), out value))
+                        if (!decimal.TryParse(val.Replace(",", "."), out value))
                         {
                             throw new Exception("Format angka salah!!!");
                         }
@@ -131,8 +138,7 @@ namespace YTech.Ltr.SmsLib.WinForms
                         //cannot use regex .(dot), it use for other functionality
                         // string[] numbers = Regex.Split(det, ".");
 
-                        string[] sep = new[] { "." };
-                        string[] numbers = det.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                        string[] numbers = nums.Split(numseparator, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string num in numbers)
                         {
                             detMsg = new DetailMessage();
@@ -149,14 +155,14 @@ namespace YTech.Ltr.SmsLib.WinForms
                             //if not, use regular games
                             else
                             {
-                               
+
                                 if (isTH && num.Length == 4)
                                 {
                                     detMsg.GameId = EnumGame.D4TH.ToString();
                                 }
                                 else
                                 {
-                                     detMsg.GameId = string.Format("D{0}", num.Length);
+                                    detMsg.GameId = string.Format("D{0}", num.Length);
                                 }
                             }
                             detMsg.SalesNumber = num;
@@ -230,7 +236,8 @@ namespace YTech.Ltr.SmsLib.WinForms
             foreach (DetailMessage detailMessage in listDet)
             {
                 dictGame.TryGetValue(detailMessage.GameId, out game);
-                if (detailMessage.IsHBR)
+                desc = string.Empty;
+                if (detailMessage.IsHBR && detailMessage.GameId.Equals(EnumGame.D4.ToString()))
                 {
                     desc = string.Format("HBR : {0}", detailMessage.SalesNumber);
                 }
