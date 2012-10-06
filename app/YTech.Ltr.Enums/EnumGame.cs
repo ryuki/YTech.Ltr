@@ -8,6 +8,13 @@ namespace YTech.Ltr.Enums
         D3,
         D4, 
         D4TH,
-        PAKET
+        PAKET,
+        MK,
+        DTB,
+        D,
+        T,
+        B,
+        BK_B,
+        BK_K
     }
 }

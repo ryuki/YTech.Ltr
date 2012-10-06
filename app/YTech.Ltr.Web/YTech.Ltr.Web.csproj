@@ -251,6 +251,7 @@
     <Content Include="Global.asax" />
     <Content Include="NHibernate.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="ReportViewer.aspx" />
     <Content Include="Scripts\autoNumeric-1.6.2.js" />

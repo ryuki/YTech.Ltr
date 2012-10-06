@@ -62,6 +62,7 @@ namespace YTech.Ltr.SmsLib.WinForms
             string[] numseparator = new string[] { ConfigurationManager.AppSettings["NumSeparator"] };
             foreach (string line in lines)
             {
+                factor = 1;
                 if (line.Contains("A="))
                 {
                     agentId = line.Replace("A=", "");
@@ -88,7 +89,7 @@ namespace YTech.Ltr.SmsLib.WinForms
                     //det[1] = value and game (for BB)
                     //string[] dets = line.Split(valueseparator, StringSplitOptions.RemoveEmptyEntries); // Regex.Split(line, "=");
                     //string det = dets[0].Trim();
-                    string val = line.Substring(line.LastIndexOf(valseparator)+1);
+                    string val = line.Substring(line.LastIndexOf(valseparator) + 1);
                     string nums = line.Substring(0, line.LastIndexOf(valseparator));
                     //check if games is BB
                     if (val.Contains("BB"))
@@ -126,6 +127,42 @@ namespace YTech.Ltr.SmsLib.WinForms
                             listDet.Add(detMsg);
                         }
                     }
+                    //check if games is BK
+                    if (val.Contains("-"))
+                    {
+                        //replace comma with dot to identify decimal number, ex : 0,5
+                        string[] BKseparator = new string[] { "-" };
+                        string[] BK = nums.Split(BKseparator, StringSplitOptions.RemoveEmptyEntries);
+                        decimal b = 0;
+                        decimal k = 0;
+
+                        if (!decimal.TryParse(BK[0], out b) || !decimal.TryParse(BK[1], out k))
+                        {
+                            throw new Exception("Format angka salah!!!");
+                        }
+
+                        string[] numbers = nums.Split(numseparator, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string num in numbers)
+                        {
+                            //besar
+                            detMsg = new DetailMessage();
+                            detMsg.GameId = EnumGame.BK_B.ToString();
+                            detMsg.SalesNumber = num;
+                            detMsg.SalesValue = b * 2;
+                            detMsg.IsBB = false;
+                            detMsg.IsHBR = false;
+                            listDet.Add(detMsg);
+
+                            //kecil
+                            detMsg = new DetailMessage();
+                            detMsg.GameId = EnumGame.BK_K.ToString();
+                            detMsg.SalesNumber = num;
+                            detMsg.SalesValue = k * 2;
+                            detMsg.IsBB = false;
+                            detMsg.IsHBR = false;
+                            listDet.Add(detMsg);
+                        }
+                    }
                     //if not, just do it
                     else
                     {
@@ -148,9 +185,25 @@ namespace YTech.Ltr.SmsLib.WinForms
                             {
                                 detMsg.GameId = EnumGame.WING.ToString();
                             }
+                            else if (num.Contains("MK"))
+                            {
+                                detMsg.GameId = EnumGame.MK.ToString();
+                            }
                             else if (num.Contains("/"))
                             {
                                 detMsg.GameId = EnumGame.PAKET.ToString();
+                            }
+                            else if (num.Contains("D"))
+                            {
+                                detMsg.GameId = EnumGame.D.ToString();
+                            }
+                            else if (num.Contains("T"))
+                            {
+                                detMsg.GameId = EnumGame.T.ToString();
+                            }
+                            else if (num.Contains("B"))
+                            {
+                                detMsg.GameId = EnumGame.B.ToString();
                             }
                             //if not, use regular games
                             else

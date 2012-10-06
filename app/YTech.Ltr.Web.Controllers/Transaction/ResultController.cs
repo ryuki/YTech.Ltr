@@ -105,6 +105,30 @@ namespace YTech.Ltr.Web.Controllers.Transaction
                 SaveResultDet(result, EnumGame.PAKET, i + 1, string.Format("{0}/{1}", prizeD1[int.Parse(prizePaket[0].ToString())], prizeD1[int.Parse(prizePaket[1].ToString())]));
             }
 
+            //calculate prize for MK
+            char[] prizeMK;
+            for (int i = 0; i < indexResultPaket.Count; i++)
+            {
+                prizeMK = indexResultPaket[i].ToCharArray();
+                SaveResultDet(result, EnumGame.MK, i + 1, string.Format("{0}/{1}", prizeD1[int.Parse(prizeMK[0].ToString())], prizeD1[int.Parse(prizeMK[1].ToString())]));
+            }
+
+            //calculate prize for DTB
+            string prizeD = viewModel.prizeD4_1.Substring(0, 2);
+            string prizeT = viewModel.prizeD4_1.Substring(1, 2);
+            string prizeB = viewModel.prizeD4_1.Substring(2, 2);
+            SaveResultDet(result, EnumGame.D, 1, prizeD);
+            SaveResultDet(result, EnumGame.T, 1, prizeT);
+            SaveResultDet(result, EnumGame.B, 1, prizeB);
+
+            //calculate prize for BK besar dan kecil
+            SaveResultDet(result, EnumGame.BK_B, 101, viewModel.prizeD4_1);
+            SaveResultDet(result, EnumGame.BK_B, 201, viewModel.prizeD4_2);
+            SaveResultDet(result, EnumGame.BK_B, 301, viewModel.prizeD4_3);
+            SaveResultDet(result, EnumGame.BK_K, 101, viewModel.prizeD4_1);
+            SaveResultDet(result, EnumGame.BK_K, 201, viewModel.prizeD4_2);
+            SaveResultDet(result, EnumGame.BK_K, 301, viewModel.prizeD4_3);
+
             SaveResultDet(result, EnumGame.D2, 1, prizeD2);
             SaveResultDet(result, EnumGame.D3, 1, prizeD3);
             SaveResultDet(result, EnumGame.D4TH, 1, viewModel.prizeD4_1);

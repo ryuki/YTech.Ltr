@@ -275,7 +275,7 @@
     </div>
     <div class="ui-layout-south">
         <div class="header">
-           ©2011 YTech</div>
+          </div>
        <%-- <div class="content">
             <p>
                 I only have a resizer/toggler when 'open'</p>
